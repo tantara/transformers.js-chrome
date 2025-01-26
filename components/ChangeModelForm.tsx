@@ -104,7 +104,7 @@ function ChangeModelForm() {
           </RadioGroup>
           <Accordion type="single" collapsible defaultValue={config.model_id}>
             {availableModels.map((model) => (
-              <AccordionItem value={model.model_id}>
+              <AccordionItem value={model.model_id} key={model.model_id}>
                 <AccordionTrigger>{model.model_id}</AccordionTrigger>
                 <AccordionContent>
                   {config.model_id == model.model_id && (

@@ -159,7 +159,8 @@ const generate = async (modelConfig: LLMModelConfig, messages: Message[]) => {
     repetition_penalty: 1.15
   }
   */
-  const generationConfig = getGenerationConfig()
+  const generationConfig = await getGenerationConfig()
+  console.log("generationConfig", generationConfig)
   const { past_key_values, sequences } = await model.generate({
     ...inputs,
     ...generationConfig,
@@ -711,6 +712,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     "text-generation"
   )) as LLMModelConfig
   const result = await generate(modelConfig, messages)
+  console.log("result", result)
 
   // Do something with the result
   chrome.scripting.executeScript({
@@ -719,6 +721,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     // function: (result) => {
     func: (result) => {
       // The function to run in the context of the web page
+      console.log("result", result)
       document.execCommand("insertText", false, result.cleanedOutput)
     }
   })

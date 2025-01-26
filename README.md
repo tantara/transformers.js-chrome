@@ -6,7 +6,7 @@ Please note that this project is still under development. The chrome extension p
 
 ## Examples
 
-Here is the link to the [demo video](https://www.youtube.com/watch?v=yXZQ8FHtSes). Each example will be updated below.
+Here is the link to the demo videos ([basic](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced](https://www.youtube.com/watch?v=MSCDdFG5Lls)). Each example will be updated below.
 
 | Task                | Example                                                          |
 | ------------------- | ---------------------------------------------------------------- |
@@ -47,6 +47,8 @@ Prompt: "Write python code to compute the nth fibonacci number."
 | [Phi-3.5-mini](https://huggingface.co/onnx-community/Phi-3.5-mini-instruct-onnx-web) (q4f16)    | 32.9 tokens/sec |
 | [SmolLM2-1.7B](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) (q4f16)              | 46.2 tokens/sec |
 | [Qwen2.5-Coder-1.5B](https://huggingface.co/onnx-community/Qwen2.5-Coder-1.5B-Instruct) (q4f16) | 36.1 tokens/sec |
+| [Janus 1.3B](https://huggingface.co/onnx-community/Janus-1.3B-ONNX) (q4f16)                     | 30.9 tokens/sec |
+| [Whipser Base](https://huggingface.co/onnx-community/whisper-base) (fp32 + q4)                  | 30.5 tokens/sec |
 
 
 ## Installation

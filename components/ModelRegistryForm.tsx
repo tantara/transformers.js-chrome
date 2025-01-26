@@ -67,8 +67,8 @@ function ModelRegistryForm() {
       <Separator className="my-2" />
       <div className="p-4">
         {cachedFiles.map((file) => (
-          <>
-            <div key={file.url} className="text-sm">
+          <div key={file.url}>
+            <div className="text-sm">
               {file.url} <Badge variant="secondary">{file.sizeFormatted}</Badge>{" "}
               <Button
                 variant="destructive"
@@ -78,7 +78,7 @@ function ModelRegistryForm() {
               </Button>
             </div>
             <Separator className="my-2" />
-          </>
+          </div>
         ))}
       </div>
     </ScrollArea>

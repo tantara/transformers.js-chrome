@@ -1,10 +1,10 @@
 import { Label } from "@radix-ui/react-label"
 import {
   ArrowUp,
+  Braces,
   Brush,
   CircleStop,
   FileImage,
-  FileJson,
   FileText,
   LinkIcon,
   Mic,
@@ -348,12 +348,14 @@ function Chat() {
       .map((m) => ({
         role: m.role,
         content: m.content,
+        metadata: m.metadata,
         ...(m.image ? { image: m.image } : {})
       }))
       .concat([
         {
           role: "user",
           content: text,
+          metadata: "",
           ...(image ? { image } : {})
         }
       ])
@@ -363,7 +365,7 @@ function Chat() {
     }
 
     const pendingMessages = promptMessages.concat([
-      { role: "assistant", content: "Thinking..." }
+      { role: "assistant", content: "Thinking...", metadata: "" }
     ])
     setMessages(pendingMessages)
     setInputText("")
@@ -553,7 +555,7 @@ function Chat() {
         <ChatProgress
           progressItems={progressItems}
           // offset={modelConfig.task === "speech-to-text" ? 24 : 16}
-          offset={modelConfig.task === "speech-to-text" ? 240 : 64}
+          offset={modelConfig.task === "speech-to-text" ? 230 : 64}
         />
       )}
 
@@ -666,6 +668,7 @@ function Chat() {
                                 ) as HTMLInputElement | null
                               )?.value
                               if (url) {
+                                setAudioBlob(null)
                                 handleAudioUrl(url)
                                 setOpenAudioUrlDialog(false)
                               }
@@ -753,7 +756,7 @@ function Chat() {
                         className="w-full"
                         variant="secondary"
                         onClick={handleExportJson}>
-                        <FileJson className="w-4 h-4" />
+                        <Braces className="w-4 h-4" />
                         Export JSON
                       </Button>
                     </div>
