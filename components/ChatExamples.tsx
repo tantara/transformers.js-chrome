@@ -40,7 +40,21 @@ const taskExamples = {
       prompt: "Write python code to compute the nth fibonacci number."
     }
   ],
-  "speech-to-text": []
+  "speech-to-text": [],
+  reasoning: [
+    {
+      prompt: "Solve the equation x^2 - 3x + 2 = 0"
+    },
+    {
+      prompt:
+        "Lily is three times older than her son. In 15 years, she will be twice as old as him. How old is she now?"
+    },
+    {
+      prompt: "Write python code to compute the nth fibonacci number."
+    }
+  ],
+  // TODO
+  "text-to-speech": []
 } as { [key in ModelTask]: ChatExamplePrompt[] }
 
 function ChatExamples({

@@ -3,13 +3,19 @@ import {
   DEVICE_TYPES
 } from "@huggingface/transformers/src/utils/dtypes"
 
-type ModelTask = "text-generation" | "multimodal-llm" | "speech-to-text"
+type ModelTask =
+  | "text-generation"
+  | "multimodal-llm"
+  | "speech-to-text"
+  | "reasoning"
+  | "text-to-speech"
 
 interface Message {
   role: "user" | "assistant"
   content: string
   metadata?: string
   image?: string
+  context?: string
 }
 
 interface ProgressItem {
@@ -63,7 +69,28 @@ interface STTModelConfig extends BaseModelConfig {
   device: DEVICE_TYPES
 }
 
-type ModelConfig = LLMModelConfig | MLLMModelConfig | STTModelConfig
+interface ReasoningModelConfig extends BaseModelConfig {
+  task: "reasoning"
+  model_id: string
+  dtype: DATA_TYPES
+  device: DEVICE_TYPES
+  use_external_data_format: boolean
+}
+
+interface TTSModelConfig extends BaseModelConfig {
+  task: "text-to-speech"
+  model_id: string
+  dtype: DATA_TYPES
+  device: DEVICE_TYPES
+  language: string
+}
+
+type ModelConfig =
+  | LLMModelConfig
+  | MLLMModelConfig
+  | STTModelConfig
+  | ReasoningModelConfig
+  | TTSModelConfig
 
 export type {
   Message,
@@ -72,5 +99,7 @@ export type {
   ModelTask,
   LLMModelConfig,
   MLLMModelConfig,
-  STTModelConfig
+  STTModelConfig,
+  ReasoningModelConfig,
+  TTSModelConfig
 }

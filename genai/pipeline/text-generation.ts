@@ -4,7 +4,7 @@ import {
   env
 } from "@huggingface/transformers"
 
-import type { LLMModelConfig } from "~/src/types"
+import type { LLMModelConfig, ReasoningModelConfig } from "~/src/types"
 
 // Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false
@@ -42,7 +42,7 @@ class TextGenerationPipeline {
       use_external_data_format: false
     */
   static async getInstance(
-    modelConfig: LLMModelConfig,
+    modelConfig: LLMModelConfig | ReasoningModelConfig,
     progress_callback = null
   ) {
     // store original reference

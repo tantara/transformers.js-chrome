@@ -231,20 +231,23 @@ function Chat() {
       } else if (message.status === "update") {
         setMessages((prev) => {
           const response = message.data
-          const metadata = `${response.numTokens} tokens in ${response.latency.toFixed(0)} ms (${response.tps.toFixed(1)} tokens/sec)`
+          const state = response.state ? `[${response.state}] ` : ""
+          const metadata = `${state}${response.numTokens} tokens in ${response.latency.toFixed(0)} ms (${response.tps.toFixed(1)} tokens/sec)`
           const last = prev[prev.length - 1]
           const content = ["Thinking...", "Loading model..."].includes(
             last.content
           )
             ? response.output
             : last.content + response.output
+          const context = response.state == "thinking" ? content : last.context
           return [
             ...prev.slice(0, -1),
             {
               ...last,
               content: content,
               role: "assistant",
-              metadata
+              metadata,
+              context
             }
           ]
         })

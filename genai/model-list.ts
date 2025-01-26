@@ -1,4 +1,9 @@
-import type { ModelConfig, ModelTask } from "~/src/types"
+import type {
+  ModelConfig,
+  ModelTask,
+  ReasoningModelConfig,
+  TTSModelConfig
+} from "~/src/types"
 
 import { ModelRegistry } from "./model-registry"
 
@@ -117,15 +122,41 @@ const sttModelList: ModelConfig[] = [
   }
 ]
 
+const reasoningModelList: ModelConfig[] = [
+  {
+    task: "reasoning",
+    model_id: "onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX",
+    dtype: "q4f16",
+    device: "webgpu",
+    use_external_data_format: false
+  }
+]
+
+const ttsModelList = async (): Promise<ModelConfig[]> => {
+  const fp16_supported = await ModelRegistry.fp16Supported()
+  return [
+    {
+      task: "text-to-speech",
+      model_id: "onnx-community/OuteTTS-0.2-500M",
+      dtype: fp16_supported ? "q4f16" : "q4", // Supported dtypes: fp32, fp16, q8, q4, q4f16
+      device: "webgpu", // Supported devices: webgpu, wasm
+      language: "en" // Supported languages in v0.2: en, zh, ja, ko
+    }
+  ]
+}
+
 const modelList = {
   "text-generation": llmModelList,
   // "multimodal-llm": mllmModelList,
-  "speech-to-text": sttModelList
+  "speech-to-text": sttModelList,
+  reasoning: reasoningModelList
 } as { [key in ModelTask]: ModelConfig[] }
 
 const getModelList = async (task: ModelTask) => {
   if (task === "multimodal-llm") {
     return await mllmModelList()
+  } else if (task === "text-to-speech") {
+    return await ttsModelList()
   }
   return modelList[task]
 }

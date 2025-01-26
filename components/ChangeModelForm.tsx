@@ -1,4 +1,4 @@
-import { AudioLines, FileImage, LetterText } from "lucide-react"
+import { AudioLines, Brain, FileImage, LetterText } from "lucide-react"
 import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -99,6 +99,36 @@ function ChangeModelForm() {
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ">
                 <AudioLines className="mb-3 h-6 w-6" />
                 Speech to Text
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem
+                value="reasoning"
+                id="reasoning"
+                className="peer sr-only"
+                aria-label="Reasoning"
+                checked={modelTask === "reasoning"}
+              />
+              <Label
+                htmlFor="reasoning"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ">
+                <Brain className="mb-3 h-6 w-6" />
+                Reasoning
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem
+                value="text-to-speech"
+                id="text-to-speech"
+                className="peer sr-only"
+                aria-label="Text to Speech"
+                checked={modelTask === "text-to-speech"}
+              />
+              <Label
+                htmlFor="text-to-speech"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ">
+                <Brain className="mb-3 h-6 w-6" />
+                Text to Speech
               </Label>
             </div>
           </RadioGroup>

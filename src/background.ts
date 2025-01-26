@@ -27,7 +27,9 @@ import type {
   MLLMModelConfig,
   ModelConfig,
   ModelTask,
-  STTModelConfig
+  ReasoningModelConfig,
+  STTModelConfig,
+  TTSModelConfig
 } from "./types"
 
 interface Message {
@@ -77,7 +79,11 @@ const getGenerationConfig = async (): Promise<GenerationConfig> => {
 }
 
 // Create generic generate function, which will be reused for the different types of events.
-const generate = async (modelConfig: LLMModelConfig, messages: Message[]) => {
+const generate = async (
+  modelConfig: LLMModelConfig | ReasoningModelConfig,
+  messages: Message[],
+  reasoning: boolean = false
+) => {
   // Get the pipeline instance. This will load and build the model when run for the first time.
   let progress = 0
   let [tokenizer, model] = await TextGenerationPipeline.getInstance(
@@ -109,15 +115,29 @@ const generate = async (modelConfig: LLMModelConfig, messages: Message[]) => {
     return_dict: true
   })
 
+  let START_THINKING_TOKEN_ID, END_THINKING_TOKEN_ID
+  let state: string = ""
+  if (reasoning) {
+    ;[START_THINKING_TOKEN_ID, END_THINKING_TOKEN_ID] = tokenizer.encode(
+      "<think></think>",
+      { add_special_tokens: false }
+    )
+    state = "thinking"
+  }
+
   let startTime
   let numTokens: number = 0
   let tps: number = 0
   let firstTokenLatency: number = 0
-  const token_callback_function = () => {
+  const token_callback_function = (tokens) => {
     startTime ??= performance.now()
 
     if (numTokens++ > 0) {
       tps = (numTokens / (performance.now() - startTime)) * 1000
+    }
+
+    if (END_THINKING_TOKEN_ID && tokens[0] == END_THINKING_TOKEN_ID) {
+      state = "answering"
     }
   }
   let generatedText = ""
@@ -134,7 +154,8 @@ const generate = async (modelConfig: LLMModelConfig, messages: Message[]) => {
         tps,
         numTokens,
         firstTokenLatency,
-        latency: performance.now() - startTime
+        latency: performance.now() - startTime,
+        state
       }
     })
   }
@@ -665,6 +686,10 @@ const transcribe = async (modelConfig: STTModelConfig, messages: Message[]) => {
   }
 }
 
+const read = async (modelConfig: TTSModelConfig, messages: Message[]) => {
+  // TODO
+}
+
 ////////////////////// 1. Context Menus //////////////////////
 // Add a listener to create the initial context menu items,
 // context menu items only need to be created at runtime.onInstalled
@@ -740,10 +765,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       // Perform generation
       if (modelConfig.task === "text-generation") {
         result = await generate(modelConfig, message.messages)
+      } else if (modelConfig.task == "reasoning") {
+        result = await generate(modelConfig, message.messages, true)
       } else if (modelConfig.task == "multimodal-llm") {
         result = await understandImage(modelConfig, message.messages)
       } else if (modelConfig.task == "speech-to-text") {
         result = await transcribe(modelConfig, message.messages)
+      } else if (modelConfig.task == "text-to-speech") {
+        result = await read(modelConfig, message.messages)
       } else {
         sendResponse({ error: "Unsupported task" })
       }

@@ -1,7 +1,6 @@
 import {
   AutoProcessor,
   AutoTokenizer,
-  full,
   pipeline,
   WhisperForConditionalGeneration
 } from "@huggingface/transformers"
