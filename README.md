@@ -6,7 +6,7 @@ Please note that this project is still under development. The chrome extension p
 
 ## Examples
 
-Here is the link to the demo videos ([basic](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced](https://www.youtube.com/watch?v=MSCDdFG5Lls)). Each example will be updated below.
+Here is the link to the demo videos ([intro](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced usage of llm, multi modal, tts](https://www.youtube.com/watch?v=MSCDdFG5Lls)). Each example will be updated below.
 
 | Task                | Example                                                          |
 | ------------------- | ---------------------------------------------------------------- |
@@ -15,9 +15,11 @@ Here is the link to the demo videos ([basic](https://www.youtube.com/watch?v=yXZ
 | Image Understanding | ![Example Multi Modal LLM](./docs/example-image-caption.jpg)     |
 | Image Generation    | ![Example Image Generation](./docs/example-image-generation.jpg) |
 | Speech to Text      | ![Example Speech to Text](./docs/example-speech-to-text.jpg)     |
-| Text Classification | WIP                                                              |
-| Image Segmentation  | WIP                                                              |
-| Remove Background   | WIP                                                              |
+| Reasoning           | ![Example Reasoning](./docs/example-reasoning.jpg)               |
+| Text to Speech      | WIP                                                              |
+| Text Classification | TODO                                                             |
+| Image Segmentation  | TODO                                                             |
+| Remove Background   | TODO                                                             |
 
 ## Features
 
@@ -29,6 +31,8 @@ Here is the link to the demo videos ([basic](https://www.youtube.com/watch?v=yXZ
 - [x] Release extension to Chrome Web Store
 - [x] Load multi modal LLM models
 - [x] Load Whisper (Speech-to-Text)
+- [x] Load DeepSeek R1 (Reasoning)
+- [x] Load OuteTTS (Text-to-Speech)
 - [ ] SAM (Segment Anything Model), etc.
 - [ ] Chat history (save to local storage, export to CSV)
 - [ ] Call 3rd party LLM APIs
@@ -49,6 +53,7 @@ Prompt: "Write python code to compute the nth fibonacci number."
 | [Qwen2.5-Coder-1.5B](https://huggingface.co/onnx-community/Qwen2.5-Coder-1.5B-Instruct) (q4f16) | 36.1 tokens/sec |
 | [Janus 1.3B](https://huggingface.co/onnx-community/Janus-1.3B-ONNX) (q4f16)                     | 30.9 tokens/sec |
 | [Whipser Base](https://huggingface.co/onnx-community/whisper-base) (fp32 + q4)                  | 30.5 tokens/sec |
+| [DeepSeek R1](https://huggingface.co/onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX) (q4f16) | 32.7 tokens/sec |
 
 
 ## Installation
@@ -124,3 +129,5 @@ Run Chrome extension, open `inspect`, go to `Application` tab, find `Local Stora
 - https://github.com/microsoft/onnxruntime/issues/20876
 - https://github.com/ggaabe/extension
 - https://github.com/xenova/whisper-web
+- https://www.mathjax.org/
+- [Ilya Sutskever NeurIPS 2024 full talk (Youtube)](https://www.youtube.com/watch?v=YD-9NG1Ke5Y)

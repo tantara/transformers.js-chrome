@@ -91,10 +91,6 @@ function ChatMessages({
                     }}
                   />
                 )}
-                {/* x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} */}
-                {/* <MathJax>
-                  {"$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$"}
-                </MathJax> */}
                 {msg.context && (
                   <div className="rounded-md p-2 bg-blue-100 mb-2">
                     <div className="flex flex-row text-center">
