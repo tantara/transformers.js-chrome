@@ -1,7 +1,9 @@
+import { MathJax } from "better-react-mathjax"
 import DOMPurify from "dompurify"
 import { marked } from "marked"
 
 import ChatCopyButton from "~/components/ChatCopyButton"
+import ChatDownloadButton from "~/components/ChatDownloadButton"
 import { cn } from "~/lib/utils"
 import type { Message } from "~/src/types"
 
@@ -66,15 +68,37 @@ function ChatMessages({
                 style={{
                   overflowWrap: "anywhere"
                 }}>
-                <span
-                  className="markdown"
-                  dangerouslySetInnerHTML={{
-                    __html: render(msg.content)
-                  }}
-                />
+                {msg.image && (
+                  <img
+                    src={msg.image}
+                    alt="Image for GenAI"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      marginBottom: "8px"
+                    }}
+                  />
+                )}
+                {/* x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} */}
+                {/* <MathJax>
+                  {"$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$"}
+                </MathJax> */}
+                <MathJax>
+                  <span
+                    className="markdown"
+                    dangerouslySetInnerHTML={{
+                      __html: render(msg.content)
+                    }}
+                  />
+                </MathJax>
               </p>
             </div>
-            {msg.role === "assistant" && <ChatCopyButton text={msg.content} />}
+            {msg.role === "assistant" &&
+              (msg.image ? (
+                <ChatDownloadButton image={msg.image} />
+              ) : (
+                <ChatCopyButton text={msg.content} />
+              ))}
           </div>
           {msg.metadata && (
             <div

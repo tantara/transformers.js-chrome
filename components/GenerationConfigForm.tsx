@@ -3,7 +3,7 @@ import { useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
-import { DEFAULT_GENERATION_CONFIG } from "~/llm/default-config"
+import { DEFAULT_GENERATION_CONFIG } from "~/genai/default-config"
 
 import { Alert, AlertDescription } from "./ui/alert"
 import { Input } from "./ui/input"

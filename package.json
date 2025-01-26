@@ -9,7 +9,7 @@
     "build": "pnpm with-env plasmo build",
     "package": "pnpm with-env plasmo package",
     "with-env": "dotenv -e .env --",
-    "postinstall": "rm -rf node_modules/@huggingface/transformers/dist/*.{js,cjs,mjs,map}"
+    "postinstall": "bash postinstall/run.sh"
   },
   "dependencies": {
     "@huggingface/transformers": "^3.2.4",
@@ -19,12 +19,14 @@
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-radio-group": "^1.2.2",
     "@radix-ui/react-scroll-area": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.4",
+    "better-react-mathjax": "2.0.4-beta1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dompurify": "^3.2.2",
@@ -33,6 +35,7 @@
     "plasmo": "0.89.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.3.5",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
