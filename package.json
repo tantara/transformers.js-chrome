@@ -12,7 +12,7 @@
     "postinstall": "rm -rf node_modules/@huggingface/transformers/dist/*.{js,cjs,mjs,map}"
   },
   "dependencies": {
-    "@huggingface/transformers": "^3.1.0",
+    "@huggingface/transformers": "^3.2.4",
     "@plasmohq/storage": "^1.13.0",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-context-menu": "^2.2.2",
@@ -51,6 +51,9 @@
   },
   "manifest": {
     "permissions": [
+      "activeTab",
+      "contextMenus",
+      "scripting",
       "sidePanel",
       "storage",
       "unlimitedStorage"

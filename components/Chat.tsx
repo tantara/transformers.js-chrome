@@ -1,4 +1,4 @@
-import { ArrowUp } from "lucide-react"
+import { ArrowUp, CircleStop } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -24,6 +24,7 @@ function Chat() {
   )
 
   const [isLoading, setIsLoading] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -69,7 +70,8 @@ function Chat() {
           return newItems
         })
       } else if (message.status === "assistant") {
-        console.log("Assistant:", message)
+        // console.log("Assistant:", message)
+        setIsGenerating(true)
         setMessages((prev) =>
           prev.map((m) => {
             if (["Thinking...", "Loading model..."].includes(m.content)) {
@@ -98,6 +100,10 @@ function Chat() {
             }
           ]
         })
+      } else if (message.status === "append") {
+        setMessages((prev) => [...prev, ...message.data.messages])
+      } else if (message.status === "end") {
+        setIsGenerating(false)
       }
     })
   }, [])
@@ -159,6 +165,14 @@ function Chat() {
     [handleSubmit]
   )
 
+  const handleInterrupt = useCallback(() => {
+    const message = {
+      action: "interrupt"
+    }
+    chrome.runtime.sendMessage(message)
+    setIsGenerating(false)
+  }, [])
+
   return (
     <div
       style={{
@@ -212,12 +226,19 @@ function Chat() {
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
         />
-        <Button
-          size="icon"
-          onClick={handleSubmit}
-          disabled={isLoading || inputText.length == 0}>
-          <ArrowUp className="w-4 h-4" />
-        </Button>
+        {!isGenerating && (
+          <Button
+            size="icon"
+            onClick={handleSubmit}
+            disabled={isLoading || inputText.length == 0}>
+            <ArrowUp className="w-4 h-4" />
+          </Button>
+        )}
+        {isGenerating && (
+          <Button size="icon" onClick={handleInterrupt}>
+            <CircleStop className="w-4 h-4" />
+          </Button>
+        )}
       </div>
     </div>
   )

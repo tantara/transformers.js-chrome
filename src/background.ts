@@ -17,6 +17,10 @@ const sendToSidePanel = (data) => {
     .catch((err) => console.log("Side panel may not be open:", err))
 }
 
+const stopping_criteria = new InterruptableEOSStoppingCriteria([
+  // tokenizer.eos_token_id
+])
+
 // Create generic generate function, which will be reused for the different types of events.
 const generate = async (messages: Message[]) => {
   // Get the pipeline instance. This will load and build the model when run for the first time.
@@ -46,10 +50,6 @@ const generate = async (messages: Message[]) => {
     add_generation_prompt: true,
     return_dict: true
   })
-
-  const stopping_criteria = new InterruptableEOSStoppingCriteria([
-    tokenizer.eos_token_id
-  ])
 
   let startTime
   let numTokens: number = 0
@@ -122,8 +122,18 @@ const generate = async (messages: Message[]) => {
 
   // Actually run the model on the input text
   // console.log("generatedText", generatedText)
+
+  sendToSidePanel({
+    status: "end",
+    data: {
+      output: decoded,
+      cleanedOutput: generatedText
+    }
+  })
+
   return {
     output: decoded,
+    cleanedOutput: generatedText,
     tps,
     numTokens,
     latency,
@@ -131,21 +141,84 @@ const generate = async (messages: Message[]) => {
   }
 }
 
+////////////////////// 1. Context Menus //////////////////////
+// Add a listener to create the initial context menu items,
+// context menu items only need to be created at runtime.onInstalled
+chrome.runtime.onInstalled.addListener(function () {
+  // Register a context menu item that will only show up for selection text.
+  chrome.contextMenus.create({
+    id: "rewrite-selection",
+    title: 'Rewrite "%s"',
+    contexts: ["selection"]
+  })
+  chrome.contextMenus.create({
+    id: "summarize-selection",
+    title: 'Summarize "%s"',
+    contexts: ["selection"]
+  })
+})
+
+// Perform inference when the user clicks a context menu
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  // Ignore context menu clicks that are not for classifications (or when there is no input)
+  if (
+    info.menuItemId !== "rewrite-selection" &&
+    info.menuItemId !== "summarize-selection"
+  )
+    return
+  if (!info.selectionText) return
+
+  // Perform classification on the selected text
+  const action =
+    info.menuItemId === "rewrite-selection" ? "Rewrite" : "Summarize"
+  const messages: Message[] = [
+    { role: "user", content: `${action}: ${info.selectionText}` }
+  ]
+  // open the side panel
+  await chrome.sidePanel.open({ windowId: tab.windowId })
+  // wait for the side panel to open
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  sendToSidePanel({
+    status: "append",
+    data: {
+      messages: messages.concat({ role: "assistant", content: "Thinking..." })
+    }
+  })
+  const result = await generate(messages)
+
+  // Do something with the result
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id }, // Run in the tab that the user clicked in
+    args: [result], // The arguments to pass to the function
+    // function: (result) => {
+    func: (result) => {
+      // The function to run in the context of the web page
+      document.execCommand("insertText", false, result.cleanedOutput)
+    }
+  })
+})
+//////////////////////////////////////////////////////////////
+
 ////////////////////// 2. Message Events /////////////////////
 // Listen for messages from the UI, process it, and send the result back.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // Run model prediction asynchronously
-  ;(async function () {
-    // Perform generation
-    let result = await generate(message.messages)
+  console.log("message", message)
+  if (message.action == "generate") {
+    // Run model prediction asynchronously
+    ;(async function () {
+      // Perform generation
+      let result = await generate(message.messages)
 
-    // Send response back to UI
-    if (result) {
-      sendResponse(result)
-    } else {
-      sendResponse({ error: "No result" })
-    }
-  })()
+      // Send response back to UI
+      if (result) {
+        sendResponse(result)
+      } else {
+        sendResponse({ error: "No result" })
+      }
+    })()
+  } else if (message.action == "interrupt") {
+    stopping_criteria.interrupt()
+  }
 
   // return true to indicate we will send a response asynchronously
   // see https://stackoverflow.com/a/46628145 for more information
