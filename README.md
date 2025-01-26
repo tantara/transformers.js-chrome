@@ -1,12 +1,12 @@
-# Transformers.js Chrome Extension
+# 🚧 Transformers.js Chrome Extension 🚧
 
 This is an example Chrome extension for [Transformers.js](https://github.com/huggingface/transformers.js), a library for running LLMs in the browser, built on top of [Plasmo](https://plasmo.com/).
 
-Please note that this project is still under development. The chrome extension process could be stopped by the browser anytime.
+⚠️ **Please note that this project is still under development and is not ready for production or enterprise use.** APIs, features, and code structures may change without notice. The Chrome extension process could also be stopped by the browser at any time. Thank you for your understanding! 🙏
 
 ## Examples
 
-Here is the link to the demo videos ([intro](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced usage of llm, multi modal, tts](https://www.youtube.com/watch?v=MSCDdFG5Lls)). Each example will be updated below.
+Here is the link to the demo videos ([intro](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced usage](https://www.youtube.com/watch?v=MSCDdFG5Lls) of llm, multi modal, tts and reasoning). Each scenario can be found below.
 
 | Task                | Example                                                          |
 | ------------------- | ---------------------------------------------------------------- |
@@ -32,8 +32,8 @@ Here is the link to the demo videos ([intro](https://www.youtube.com/watch?v=yXZ
 - [x] Load multi modal LLM models
 - [x] Load Whisper (Speech-to-Text)
 - [x] Load DeepSeek R1 (Reasoning)
-- [x] Load OuteTTS (Text-to-Speech)
-- [ ] SAM (Segment Anything Model), etc.
+- [ ] Load OuteTTS (Text-to-Speech)
+- [ ] SAM (Segment Anything Model), Text-classification, etc.
 - [ ] Chat history (save to local storage, export to CSV)
 - [ ] Call 3rd party LLM APIs
 - [ ] Error handling
@@ -89,7 +89,7 @@ For further guidance, [visit Plasmo's Documentation](https://docs.plasmo.com/) o
 Run the following:
 
 ```bash
-pnpm build
+pnpm build & pnpm package
 ```
 
 This should create a production bundle for your extension, ready to be zipped and published to the stores.
