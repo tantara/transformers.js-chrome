@@ -8,16 +8,16 @@ Please note that this project is still under development. The chrome extension p
 
 Here is the link to the [demo video](https://www.youtube.com/watch?v=yXZQ8FHtSes). Each example will be updated below.
 
-| Task                | Example                                                     |
-| ------------------- | ----------------------------------------------------------- |
-| Text Summarization  | ![Example Text Summarization](./docs/example-summarize.jpg) |
-| Code Generation     | ![Example Code Generation](./docs/example-write-code.jpg)   |
-| Multi Modal LLM     | WIP                                                         |
-| Text Classification | WIP                                                         |
-| Speech to Text      | WIP                                                         |
-| Image Segmentation  | WIP                                                         |
-| Remove Background   | WIP                                                         |
-| Image Generation    | WIP                                                         |
+| Task                | Example                                                          |
+| ------------------- | ---------------------------------------------------------------- |
+| Text Summarization  | ![Example Text Summarization](./docs/example-summarize.jpg)      |
+| Code Generation     | ![Example Code Generation](./docs/example-write-code.jpg)        |
+| Image Understanding | ![Example Multi Modal LLM](./docs/example-image-caption.jpg)     |
+| Image Generation    | ![Example Image Generation](./docs/example-image-generation.jpg) |
+| Speech to Text      | ![Example Speech to Text](./docs/example-speech-to-text.jpg)     |
+| Text Classification | WIP                                                              |
+| Image Segmentation  | WIP                                                              |
+| Remove Background   | WIP                                                              |
 
 ## Features
 
@@ -27,8 +27,9 @@ Here is the link to the [demo video](https://www.youtube.com/watch?v=yXZQ8FHtSes
 - [x] Load LLaMA variants
 - [x] Load other LLM models
 - [x] Release extension to Chrome Web Store
-- [ ] Load multi modal LLM models
-- [ ] Load Whisper (Speech-to-Text), SAM (Segment Anything Model), etc.
+- [x] Load multi modal LLM models
+- [x] Load Whisper (Speech-to-Text)
+- [ ] SAM (Segment Anything Model), etc.
 - [ ] Chat history (save to local storage, export to CSV)
 - [ ] Call 3rd party LLM APIs
 - [ ] Error handling
@@ -120,3 +121,4 @@ Run Chrome extension, open `inspect`, go to `Application` tab, find `Local Stora
 - https://github.com/huggingface/transformers.js/issues/986
 - https://github.com/microsoft/onnxruntime/issues/20876
 - https://github.com/ggaabe/extension
+- https://github.com/xenova/whisper-web

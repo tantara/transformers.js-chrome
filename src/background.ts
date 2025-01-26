@@ -1,4 +1,9 @@
-import { BaseStreamer, TextStreamer } from "@huggingface/transformers"
+import {
+  BaseStreamer,
+  pipeline,
+  TextStreamer,
+  WhisperTextStreamer
+} from "@huggingface/transformers"
 import type { GenerationConfig } from "@huggingface/transformers/types/generation/configuration_utils"
 
 import { Storage } from "@plasmohq/storage"
@@ -9,8 +14,13 @@ import {
 } from "~/genai/default-config"
 import { IMAGE_GENERATION_COMMAND_PREFIX } from "~/genai/model-list"
 import { ImageGenerationPipeline } from "~/genai/pipeline/multimodal-llm"
+import {
+  AutomaticSpeechRecognitionMergedPipeline,
+  AutomaticSpeechRecognitionPipeline
+} from "~/genai/pipeline/speech-to-text"
 import { TextGenerationPipeline } from "~/genai/pipeline/text-generation"
 import { InterruptableEOSStoppingCriteria } from "~/genai/stopping-criteria"
+import MyWhisperTextStreamer from "~/genai/whisper-text-streamer"
 
 import type {
   LLMModelConfig,
@@ -24,6 +34,14 @@ interface Message {
   role: string
   content: string
   image?: string
+  blob?:
+    | {
+        audio: Float32Array
+        audioLength: number
+      }
+    | {
+        audioUrl: string
+      }
 }
 
 chrome.sidePanel
@@ -433,6 +451,213 @@ const understandImage = async (
 }
 
 const transcribe = async (modelConfig: STTModelConfig, messages: Message[]) => {
+  const audioBlob = messages[0].blob as
+    | {
+        audio: Float32Array
+        audioLength: number
+      }
+    | {
+        audioUrl: string
+      }
+  let audio: Float32Array | string | undefined = undefined
+
+  if ("audio" in audioBlob) {
+    const audioDict = audioBlob.audio
+    const audioLength = audioBlob.audioLength
+    audio = new Float32Array(audioLength)
+    for (let i = 0; i < audioLength; i++) {
+      audio[i] = audioDict[i]
+    }
+  } else if ("audioUrl" in audioBlob) {
+    audio = audioBlob.audioUrl
+  } else {
+    console.log("error", "No audio")
+    sendToSidePanel({
+      status: "error",
+      data: "No audio"
+    })
+    return null
+  }
+
+  const [transcriber] =
+    await AutomaticSpeechRecognitionMergedPipeline.getInstance(
+      modelConfig,
+      (data) => {
+        sendToSidePanel({
+          status: data.status,
+          data
+        })
+      }
+    )
+  let startTime
+  let numTokens: number = 0
+  let tps: number = 0
+  let firstTokenLatency: number = 0
+  const token_callback_function = (token_ids) => {
+    startTime ??= performance.now()
+
+    if (numTokens++ > 0) {
+      tps = (numTokens / (performance.now() - startTime)) * 1000
+    }
+  }
+
+  // Inject custom callback function to handle merging of chunks
+  function callback_function(item) {
+    sendToSidePanel({
+      status: "update",
+      data: {
+        output: item,
+        tps,
+        numTokens,
+        firstTokenLatency,
+        latency: performance.now() - startTime
+      }
+    })
+  }
+
+  // Actually run transcription
+  const isDistilWhisper = false
+  const language = "en"
+  const subtask = "transcribe"
+  const streamer = new MyWhisperTextStreamer(transcriber.tokenizer, {
+    skip_prompt: true,
+    decode_kwargs: {
+      skip_special_tokens: true
+    },
+    callback_function,
+    token_callback_function
+  })
+
+  let output = await transcriber(audio, {
+    // Greedy
+    top_k: 0,
+    do_sample: false,
+
+    // Sliding window
+    chunk_length_s: isDistilWhisper ? 20 : 30,
+    stride_length_s: isDistilWhisper ? 3 : 5,
+
+    // Language and task
+    language: language,
+    task: subtask,
+
+    // Return timestamps
+    return_timestamps: true,
+    force_full_sequences: false,
+
+    // Callback functions
+    streamer
+  }).catch((error) => {
+    console.log("error", error)
+    sendToSidePanel({
+      status: "error",
+      data: error
+    })
+    return null
+  })
+
+  // console.log("output", output)
+  sendToSidePanel({
+    status: "end",
+    data: {
+      output: output.text.trim(),
+      cleanedOutput: output.text.trim(),
+      chunks: output.chunks
+    }
+  })
+
+  // let progress = 0
+  // const [tokenizer, processor, model] =
+  //   await AutomaticSpeechRecognitionPipeline.getInstance(
+  //     modelConfig,
+  //     (data) => {
+  //       // We also add a progress callback to the pipeline so that we can
+  //       // track model loading.
+  //       if (progress != Math.floor(data.progress)) {
+  //         progress = Math.floor(data.progress)
+  //         // console.log("progress callback", data)
+  //         sendToSidePanel({
+  //           status: data.status,
+  //           data
+  //         })
+  //       }
+  //     }
+  //   )
+
+  // let startTime
+  // let numTokens: number = 0
+  // let tps: number = 0
+  // let firstTokenLatency: number = 0
+  // const token_callback_function = () => {
+  //   startTime ??= performance.now()
+
+  //   if (numTokens++ > 0) {
+  //     tps = (numTokens / (performance.now() - startTime)) * 1000
+  //   }
+  // }
+  // let generatedText = ""
+  // const callback_function = (output) => {
+  //   generatedText += output
+  //   if (firstTokenLatency === 0) {
+  //     firstTokenLatency = performance.now() - startTime
+  //   }
+
+  //   sendToSidePanel({
+  //     status: "update",
+  //     data: {
+  //       output,
+  //       tps,
+  //       numTokens,
+  //       firstTokenLatency,
+  //       latency: performance.now() - startTime
+  //     }
+  //   })
+  // }
+
+  // const streamer = new TextStreamer(tokenizer, {
+  //   skip_prompt: true,
+  //   decode_kwargs: {
+  //     skip_special_tokens: true
+  //   },
+  //   callback_function,
+  //   token_callback_function
+  // })
+
+  // const audioArray = new Float32Array(audioLength)
+  // for (let i = 0; i < audioLength; i++) {
+  //   audioArray[i] = audio[i]
+  // }
+  // const inputs = await processor(audioArray)
+  // console.log(processor.feature_extractor.config)
+
+  // const MAX_NEW_TOKENS = 1024
+  // const language = "en"
+  // const outputs = await model.generate({
+  //   ...inputs,
+  //   generation_config: {
+  //     // is_multilingual: true,
+  //     max_new_tokens: MAX_NEW_TOKENS,
+  //     task: "transcribe",
+  //     language
+  //     // return_timestamps: true
+  //   },
+  //   streamer
+  //   // chunk_length_s: 60
+  // })
+
+  // const decoded = tokenizer.batch_decode(outputs, {
+  //   skip_special_tokens: true
+  // })
+
+  // // Send the output back to the main thread
+  // sendToSidePanel({
+  //   status: "end",
+  //   data: {
+  //     output: decoded,
+  //     cleanedOutput: generatedText
+  //   }
+  // })
+
   return {
     output: "transcribed text",
     cleanedOutput: "transcribed text"

@@ -1,31 +1,34 @@
 import {
   AutoProcessor,
   AutoTokenizer,
+  full,
+  pipeline,
   WhisperForConditionalGeneration
 } from "@huggingface/transformers"
 
+import type { STTModelConfig } from "~/src/types"
+
 class AutomaticSpeechRecognitionPipeline {
-  static model_id = "onnx-community/whisper-base"
   static tokenizer = null
   static processor = null
   static model = null
 
-  static async getInstance(progress_callback = null) {
-    this.tokenizer ??= AutoTokenizer.from_pretrained(this.model_id, {
+  static async getInstance(
+    modelConfig: STTModelConfig,
+    progress_callback = null
+  ) {
+    this.tokenizer ??= AutoTokenizer.from_pretrained(modelConfig.model_id, {
       progress_callback
     })
-    this.processor ??= AutoProcessor.from_pretrained(this.model_id, {
+    this.processor ??= AutoProcessor.from_pretrained(modelConfig.model_id, {
       progress_callback
     })
 
     this.model ??= WhisperForConditionalGeneration.from_pretrained(
-      this.model_id,
+      modelConfig.model_id,
       {
-        dtype: {
-          encoder_model: "fp32", // 'fp16' works too
-          decoder_model_merged: "q4" // or 'fp32' ('fp16' is broken)
-        },
-        device: "webgpu",
+        dtype: modelConfig.dtype,
+        device: modelConfig.device,
         progress_callback
       }
     )
@@ -34,4 +37,28 @@ class AutomaticSpeechRecognitionPipeline {
   }
 }
 
-export { AutomaticSpeechRecognitionPipeline }
+class AutomaticSpeechRecognitionMergedPipeline {
+  static pipe = null
+
+  static async getInstance(
+    modelConfig: STTModelConfig,
+    progress_callback = null
+  ) {
+    this.pipe ??= pipeline(
+      "automatic-speech-recognition",
+      modelConfig.model_id,
+      {
+        dtype: modelConfig.dtype,
+        device: modelConfig.device,
+        progress_callback
+      }
+    )
+
+    return Promise.all([this.pipe])
+  }
+}
+
+export {
+  AutomaticSpeechRecognitionPipeline,
+  AutomaticSpeechRecognitionMergedPipeline
+}

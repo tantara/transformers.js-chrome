@@ -39,7 +39,8 @@ const taskExamples = {
     {
       prompt: "Write python code to compute the nth fibonacci number."
     }
-  ]
+  ],
+  "speech-to-text": []
 } as { [key in ModelTask]: ChatExamplePrompt[] }
 
 function ChatExamples({
@@ -49,7 +50,7 @@ function ChatExamples({
   task?: ModelTask
   onExampleClick: (example: ChatExamplePrompt) => void
 }) {
-  const examples = task ? taskExamples[task] : []
+  const examples = taskExamples[task] ?? []
   const handleExampleClick = (example: ChatExamplePrompt) => {
     onExampleClick(example)
   }
