@@ -1,23 +1,25 @@
-# Transformers.js Chrome Extension
+# 🚧 Transformers.js Chrome Extension 🚧
 
 This is an example Chrome extension for [Transformers.js](https://github.com/huggingface/transformers.js), a library for running LLMs in the browser, built on top of [Plasmo](https://plasmo.com/).
 
-Please note that this project is still under development. The chrome extension process could be stopped by the browser anytime.
+⚠️ **Please note that this project is still under development and is not ready for production or enterprise use.** APIs, features, and code structures may change without notice. The Chrome extension process could also be stopped by the browser at any time. Thank you for your understanding! 🙏
 
 ## Examples
 
-Here is the link to the [demo video](https://www.youtube.com/watch?v=yXZQ8FHtSes). Each example will be updated below.
+Here is the link to the demo videos ([intro](https://www.youtube.com/watch?v=yXZQ8FHtSes) and [advanced usage](https://www.youtube.com/watch?v=MSCDdFG5Lls) of llm, multi modal, tts and reasoning). Each scenario can be found below.
 
-| Task                | Example                                                     |
-| ------------------- | ----------------------------------------------------------- |
-| Text Summarization  | ![Example Text Summarization](./docs/example-summarize.jpg) |
-| Code Generation     | ![Example Code Generation](./docs/example-write-code.jpg)   |
-| Multi Modal LLM     | WIP                                                         |
-| Text Classification | WIP                                                         |
-| Speech to Text      | WIP                                                         |
-| Image Segmentation  | WIP                                                         |
-| Remove Background   | WIP                                                         |
-| Image Generation    | WIP                                                         |
+| Task                | Example                                                          |
+| ------------------- | ---------------------------------------------------------------- |
+| Text Summarization  | ![Example Text Summarization](./docs/example-summarize.jpg)      |
+| Code Generation     | ![Example Code Generation](./docs/example-write-code.jpg)        |
+| Image Understanding | ![Example Multi Modal LLM](./docs/example-image-caption.jpg)     |
+| Image Generation    | ![Example Image Generation](./docs/example-image-generation.jpg) |
+| Speech to Text      | ![Example Speech to Text](./docs/example-speech-to-text.jpg)     |
+| Reasoning           | ![Example Reasoning](./docs/example-reasoning.jpg)               |
+| Text to Speech      | WIP                                                              |
+| Text Classification | TODO                                                             |
+| Image Segmentation  | TODO                                                             |
+| Remove Background   | TODO                                                             |
 
 ## Features
 
@@ -26,9 +28,12 @@ Here is the link to the [demo video](https://www.youtube.com/watch?v=yXZQ8FHtSes
 - [x] Change generation parameters (e.g. max_tokens, temperature, top_p etc.)
 - [x] Load LLaMA variants
 - [x] Load other LLM models
-- [ ] Release extension to Chrome Web Store
-- [ ] Load multi modal LLM models
-- [ ] Load Whisper (Speech-to-Text), SAM (Segment Anything Model), etc.
+- [x] Release extension to Chrome Web Store
+- [x] Load multi modal LLM models
+- [x] Load Whisper (Speech-to-Text)
+- [x] Load DeepSeek R1 (Reasoning)
+- [ ] Load OuteTTS (Text-to-Speech)
+- [ ] SAM (Segment Anything Model), Text-classification, etc.
 - [ ] Chat history (save to local storage, export to CSV)
 - [ ] Call 3rd party LLM APIs
 - [ ] Error handling
@@ -46,13 +51,16 @@ Prompt: "Write python code to compute the nth fibonacci number."
 | [Phi-3.5-mini](https://huggingface.co/onnx-community/Phi-3.5-mini-instruct-onnx-web) (q4f16)    | 32.9 tokens/sec |
 | [SmolLM2-1.7B](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) (q4f16)              | 46.2 tokens/sec |
 | [Qwen2.5-Coder-1.5B](https://huggingface.co/onnx-community/Qwen2.5-Coder-1.5B-Instruct) (q4f16) | 36.1 tokens/sec |
+| [Janus 1.3B](https://huggingface.co/onnx-community/Janus-1.3B-ONNX) (q4f16)                     | 30.9 tokens/sec |
+| [Whipser Base](https://huggingface.co/onnx-community/whisper-base) (fp32 + q4)                  | 30.5 tokens/sec |
+| [DeepSeek R1](https://huggingface.co/onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX) (q4f16) | 32.7 tokens/sec |
 
 
 ## Installation
 
 ### Chrome Web Store
 
-Work in progress.
+Install '[Private AI Assistant[(https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp)]' from the Chrome Web Store.
 
 ### From source
 
@@ -81,7 +89,7 @@ For further guidance, [visit Plasmo's Documentation](https://docs.plasmo.com/) o
 Run the following:
 
 ```bash
-pnpm build
+pnpm build & pnpm package
 ```
 
 This should create a production bundle for your extension, ready to be zipped and published to the stores.
@@ -120,3 +128,6 @@ Run Chrome extension, open `inspect`, go to `Application` tab, find `Local Stora
 - https://github.com/huggingface/transformers.js/issues/986
 - https://github.com/microsoft/onnxruntime/issues/20876
 - https://github.com/ggaabe/extension
+- https://github.com/xenova/whisper-web
+- https://www.mathjax.org/
+- [Ilya Sutskever NeurIPS 2024 full talk (Youtube)](https://www.youtube.com/watch?v=YD-9NG1Ke5Y)

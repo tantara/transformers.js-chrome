@@ -1,9 +1,27 @@
+import { MathJax } from "better-react-mathjax"
 import DOMPurify from "dompurify"
+import { Brain } from "lucide-react"
 import { marked } from "marked"
 
 import ChatCopyButton from "~/components/ChatCopyButton"
+import ChatDownloadButton from "~/components/ChatDownloadButton"
 import { cn } from "~/lib/utils"
 import type { Message } from "~/src/types"
+
+const render = (text: string) => {
+  // return DOMPurify.sanitize(marked.parse(text, { async: false }))
+  // Replace all instances of single backslashes before brackets with double backslashes
+  // See https://github.com/markedjs/marked/issues/546 for more information.
+  text = text.replace(/\\([\[\]\(\)])/g, "\\\\$1")
+
+  const result = DOMPurify.sanitize(
+    marked.parse(text, {
+      async: false,
+      breaks: true
+    })
+  )
+  return result
+}
 
 function ChatMessages({
   messages,
@@ -12,10 +30,6 @@ function ChatMessages({
   messages: Message[]
   messagesEndRef: React.RefObject<HTMLDivElement>
 }) {
-  const render = (text: string) => {
-    return DOMPurify.sanitize(marked.parse(text, { async: false }))
-  }
-
   return (
     <div
       style={{
@@ -62,19 +76,57 @@ function ChatMessages({
                 boxShadow:
                   msg.role === "user" ? "none" : "0 1px 2px rgba(0,0,0,0.1)"
               }}>
-              <p
+              <div
                 style={{
                   overflowWrap: "anywhere"
                 }}>
-                <span
-                  className="markdown"
-                  dangerouslySetInnerHTML={{
-                    __html: render(msg.content)
-                  }}
-                />
-              </p>
+                {msg.image && (
+                  <img
+                    src={msg.image}
+                    alt="Image for GenAI"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      marginBottom: "8px"
+                    }}
+                  />
+                )}
+                {msg.context && (
+                  <div className="rounded-md p-2 bg-blue-100 mb-2">
+                    <div className="flex flex-row text-center">
+                      <Brain className="mb-2 h-5 w-5 mr-1" />
+                      Reasoning
+                    </div>
+                    <MathJax dynamic={true}>
+                      <span
+                        className="markdown"
+                        dangerouslySetInnerHTML={{
+                          __html: render(msg.context)
+                        }}
+                      />
+                    </MathJax>
+                  </div>
+                )}
+                <MathJax dynamic={true}>
+                  <span
+                    className="markdown"
+                    dangerouslySetInnerHTML={{
+                      __html: render(
+                        msg.context
+                          ? msg.content.substring(msg.context.length)
+                          : msg.content
+                      )
+                    }}
+                  />
+                </MathJax>
+              </div>
             </div>
-            {msg.role === "assistant" && <ChatCopyButton text={msg.content} />}
+            {msg.role === "assistant" &&
+              (msg.image ? (
+                <ChatDownloadButton image={msg.image} />
+              ) : (
+                <ChatCopyButton text={msg.content} />
+              ))}
           </div>
           {msg.metadata && (
             <div

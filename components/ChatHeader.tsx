@@ -2,9 +2,7 @@ import {
   ArrowLeftRight,
   Bot,
   EllipsisVertical,
-  Eraser,
   Github,
-  History,
   Logs,
   Milestone,
   Pencil,
@@ -179,7 +177,7 @@ function ChatHeader({
             {dialogMode === "generation_settings" && (
               <DialogHeader>
                 <DialogTitle>Generation Settings</DialogTitle>
-                <DialogDescription>
+                <DialogDescription asChild>
                   <GenerationConfigForm />
                 </DialogDescription>
               </DialogHeader>
@@ -187,7 +185,7 @@ function ChatHeader({
             {dialogMode === "change_model" && (
               <DialogHeader>
                 <DialogTitle>Change Model</DialogTitle>
-                <DialogDescription>
+                <DialogDescription asChild>
                   <ChangeModelForm />
                 </DialogDescription>
               </DialogHeader>
@@ -195,7 +193,7 @@ function ChatHeader({
             {dialogMode === "model_registry" && (
               <DialogHeader>
                 <DialogTitle>Model Registry</DialogTitle>
-                <DialogDescription>
+                <DialogDescription asChild>
                   <ModelRegistryForm />
                 </DialogDescription>
               </DialogHeader>

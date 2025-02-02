@@ -14,16 +14,19 @@ class InterruptableEOSStoppingCriteria extends StoppingCriteria {
   }
 
   interrupt() {
+    console.log("Interrupting")
     this.interrupted = true
   }
 
   reset() {
+    console.log("Resetting")
     this.interrupted = false
   }
 
   _call(input_ids, scores) {
     // if interrupted, return true for all
     if (this.interrupted) {
+      console.log("Interrupted. Stop generating...")
       return new Array(input_ids.length).fill(this.interrupted)
     }
 

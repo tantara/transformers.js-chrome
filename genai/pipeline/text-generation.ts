@@ -4,11 +4,7 @@ import {
   env
 } from "@huggingface/transformers"
 
-import { Storage } from "@plasmohq/storage"
-
-import type { ModelConfig } from "~/src/types"
-
-import { DEFAULT_MODEL_CONFIG } from "./default-config"
+import type { LLMModelConfig, ReasoningModelConfig } from "~/src/types"
 
 // Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false
@@ -35,27 +31,25 @@ env.backends.onnx.wasm.wasmPaths = undefined
 
 env.backends.onnx.wasm.proxy = false
 
-const storage = new Storage()
-
 class TextGenerationPipeline {
   static model = null
   static tokenizer = null
 
-  static async getInstance(progress_callback = null) {
-    // store original reference
-    const originalConsole = self.console
-
-    // override function reference with a new arrow function that does nothing
-    self.console.error = () => {}
-
-    /* 
+  /* 
       model_id: "onnx-community/Llama-3.2-1B-Instruct-q4f16",
       dtype: "q4f16",
       device: "webgpu",
       use_external_data_format: false
     */
-    const modelConfig: ModelConfig =
-      (await storage.get("model_config")) ?? DEFAULT_MODEL_CONFIG
+  static async getInstance(
+    modelConfig: LLMModelConfig | ReasoningModelConfig,
+    progress_callback = null
+  ) {
+    // store original reference
+    const originalConsole = self.console
+
+    // override function reference with a new arrow function that does nothing
+    self.console.error = () => {}
 
     this.tokenizer ??= AutoTokenizer.from_pretrained(modelConfig.model_id, {
       progress_callback
