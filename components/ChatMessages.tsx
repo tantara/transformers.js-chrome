@@ -8,6 +8,21 @@ import ChatDownloadButton from "~/components/ChatDownloadButton"
 import { cn } from "~/lib/utils"
 import type { Message } from "~/src/types"
 
+const render = (text: string) => {
+  // return DOMPurify.sanitize(marked.parse(text, { async: false }))
+  // Replace all instances of single backslashes before brackets with double backslashes
+  // See https://github.com/markedjs/marked/issues/546 for more information.
+  text = text.replace(/\\([\[\]\(\)])/g, "\\\\$1")
+
+  const result = DOMPurify.sanitize(
+    marked.parse(text, {
+      async: false,
+      breaks: true
+    })
+  )
+  return result
+}
+
 function ChatMessages({
   messages,
   messagesEndRef
@@ -15,21 +30,6 @@ function ChatMessages({
   messages: Message[]
   messagesEndRef: React.RefObject<HTMLDivElement>
 }) {
-  const render = (text: string) => {
-    // return DOMPurify.sanitize(marked.parse(text, { async: false }))
-    // Replace all instances of single backslashes before brackets with double backslashes
-    // See https://github.com/markedjs/marked/issues/546 for more information.
-    text = text.replace(/\\([\[\]\(\)])/g, "\\\\$1")
-
-    const result = DOMPurify.sanitize(
-      marked.parse(text, {
-        async: false,
-        breaks: true
-      })
-    )
-    return result
-  }
-
   return (
     <div
       style={{
@@ -97,7 +97,7 @@ function ChatMessages({
                       <Brain className="mb-2 h-5 w-5 mr-1" />
                       Reasoning
                     </div>
-                    <MathJax>
+                    <MathJax dynamic={true}>
                       <span
                         className="markdown"
                         dangerouslySetInnerHTML={{
@@ -107,7 +107,7 @@ function ChatMessages({
                     </MathJax>
                   </div>
                 )}
-                <MathJax>
+                <MathJax dynamic={true}>
                   <span
                     className="markdown"
                     dangerouslySetInnerHTML={{
