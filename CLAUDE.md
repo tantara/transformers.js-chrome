@@ -4,11 +4,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Chrome extension (MV3) that runs LLM inference locally in the browser using Transformers.js and WebGPU. Supports text generation, multimodal (image+text), speech-to-text, and reasoning models. Built with Plasmo framework, React 19, and Tailwind CSS.
+Monorepo for on-device AI inference apps. Uses [Turborepo](https://turborepo.com) with pnpm workspaces.
+
+### Apps
+
+- `apps/plasmo` — Chrome extension (MV3) running LLM inference locally via Transformers.js and WebGPU
+- `apps/nextjs` — Next.js 15 web app
+- `apps/expo` — Expo SDK 54 / React Native mobile app
+- `apps/tanstack-start` — Tanstack Start web app
+
+### Shared Packages
+
+- `packages/api` — tRPC v11 router
+- `packages/auth` — Authentication (better-auth)
+- `packages/db` — Database (Drizzle + Supabase)
+- `packages/ui` — Shared UI components (shadcn-ui)
+- `tooling/` — Shared eslint, prettier, tailwind, typescript configs
 
 ## Commands
 
 ```bash
+# Monorepo root
+pnpm dev              # Run all apps
+pnpm dev:plasmo       # Run plasmo Chrome extension only
+pnpm dev:next         # Run Next.js app only
+
+# Inside apps/plasmo
 pnpm dev              # Start dev server → build/chrome-mv3-dev/
 pnpm build            # Production build → build/chrome-mv3-prod/
 pnpm package          # Create zip for Chrome Web Store
@@ -18,9 +39,11 @@ pnpm test:background build/chrome-mv3-dev/static/background/index.js  # Test dev
 
 **Run `pnpm test:background` after any change to aliases, stubs, postinstall, postbuild, or dependencies** — it catches "Cannot find module" errors instantly without needing to load the extension in Chrome.
 
-Load the extension in Chrome: `chrome://extensions` → Developer mode → Load unpacked → select `build/chrome-mv3-dev` or `build/chrome-mv3-prod`.
+Load the extension in Chrome: `chrome://extensions` → Developer mode → Load unpacked → select `apps/plasmo/build/chrome-mv3-dev` or `apps/plasmo/build/chrome-mv3-prod`.
 
-## Architecture
+## Plasmo Chrome Extension Architecture
+
+All paths below are relative to `apps/plasmo/`.
 
 ### Entry Points
 
@@ -51,7 +74,7 @@ Load the extension in Chrome: `chrome://extensions` → Developer mode → Load 
 
 `ModelTask` = `"text-generation" | "multimodal-llm" | "speech-to-text" | "reasoning" | "text-to-speech"`. Each task has its own `ModelConfig` variant with dtype/device fields.
 
-## Critical Build Compatibility System
+## Critical Build Compatibility System (Plasmo)
 
 The extension bundles `@huggingface/transformers` which depends on `onnxruntime-web`. Several compatibility issues require workarounds:
 

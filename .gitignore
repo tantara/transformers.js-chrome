@@ -1,13 +1,31 @@
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# nitro
+.nitro/
+.output/
+
+# expo
+.expo/
+expo-env.d.ts
+apps/expo/.gitignore
+apps/expo/ios
+apps/expo/android
+
+# production
+build
 
 # misc
 .DS_Store
@@ -20,16 +38,25 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
+!apps/plasmo/.env
 
-out/
-build/
+# vercel
+.vercel
+
+# typescript
 dist/
+.cache
+
+# turbo
+.turbo
+
+# tanstack
+.tanstack
 
 # plasmo
 .plasmo
 
-# typescript
+# typescript build info
 .tsbuildinfo
-
-# .env

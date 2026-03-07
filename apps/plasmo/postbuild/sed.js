@@ -57,8 +57,19 @@ const sed = () => {
     fs.mkdirSync(`${targetDir}/static/mathjax`, { recursive: true })
     fs.copyFileSync(mathJaxSrc, mathJaxDst)
 
+    // Resolve mathjax-full package location (works across monorepo layouts)
+    const mathjaxDir = require.resolve("mathjax-full/package.json").replace(/\/package\.json$/, "")
+
+    // Copy MathJax TeX extensions — MathJax autoloads these at runtime (e.g. boldsymbol, mhchem)
+    const extSrc = `${mathjaxDir}/es5/input/tex/extensions`
+    const extDst = `${targetDir}/static/mathjax/input/tex/extensions`
+    fs.mkdirSync(extDst, { recursive: true })
+    for (const file of fs.readdirSync(extSrc)) {
+      fs.copyFileSync(`${extSrc}/${file}`, `${extDst}/${file}`)
+    }
+
     // Copy MathJax CHTML fonts (woff-v2) — MathJax resolves them relative to the script location
-    const fontsSrc = `${process.cwd()}/node_modules/.pnpm/mathjax-full@3.2.2/node_modules/mathjax-full/es5/output/chtml/fonts/woff-v2`
+    const fontsSrc = `${mathjaxDir}/es5/output/chtml/fonts/woff-v2`
     const fontsDst = `${targetDir}/static/mathjax/output/chtml/fonts/woff-v2`
     fs.mkdirSync(fontsDst, { recursive: true })
     for (const file of fs.readdirSync(fontsSrc)) {

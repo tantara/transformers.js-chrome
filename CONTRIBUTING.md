@@ -25,22 +25,23 @@ pnpm install
 
 3. Start the development server:
 ```bash
-pnpm dev
+pnpm dev:plasmo
 ```
 
 4. Load the extension in Chrome:
    - Open Chrome and navigate to `chrome://extensions`
    - Enable "Developer mode"
    - Click "Load unpacked"
-   - Select the `build/chrome-mv3-dev` directory
+   - Select the `apps/plasmo/build/chrome-mv3-dev` directory
 
 5. Build and package the extension for production:
 ```bash
+cd apps/plasmo
 pnpm build
 pnpm package
 ```
 
-It will create a `.zip` file in the `build/chrome-mv3-prod` directory (ie `build/chrome-mv3-prod.zip`). Please ensure that the file is valid and can be installed in Chrome.
+It will create a `.zip` file in the `apps/plasmo/build/chrome-mv3-prod` directory (ie `build/chrome-mv3-prod.zip`). Please ensure that the file is valid and can be installed in Chrome.
 
 
 ## Development Guidelines
