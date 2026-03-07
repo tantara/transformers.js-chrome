@@ -18,6 +18,26 @@ const config = {
 
   /** We already do linting and typechecking as separate tasks in CI */
   typescript: { ignoreBuildErrors: true },
+
+  /** Exclude node-only packages from server-side bundling */
+  serverExternalPackages: ["sharp", "onnxruntime-node"],
+
+  /**
+   * Stub out node-only modules so the browser bundle doesn't pull them in.
+   * See: https://huggingface.co/docs/transformers.js/tutorials/next
+   */
+  // Webpack (production builds)
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      sharp$: false,
+      "onnxruntime-node$": false,
+    };
+    return config;
+  },
+  // Turbopack (dev server) — the pre-built web dist (transformers.web.js)
+  // doesn't import sharp or onnxruntime-node, so no aliases needed.
+  turbopack: {},
 };
 
 export default config;

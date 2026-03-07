@@ -1,4 +1,4 @@
-import { pgTable } from "drizzle-orm/pg-core";
+import { pgTable } from "./table";
 
 export const user = pgTable("user", (t) => ({
   id: t.text().primaryKey(),

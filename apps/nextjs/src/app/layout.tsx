@@ -1,33 +1,85 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Source_Serif_4, JetBrains_Mono } from "next/font/google";
+
+import { Analytics } from "@vercel/analytics/next";
 
 import { cn } from "@acme/ui";
-import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
+import { ThemeProvider } from "@acme/ui/theme";
 import { Toaster } from "@acme/ui/toast";
 
 import { env } from "~/env";
-import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/styles.css";
 
+const siteUrl =
+  env.VERCEL_ENV === "production"
+    ? "https://tinywhale.vercel.app"
+    : "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
-      : "http://localhost:3000",
-  ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "TinyWhale - In-Browser AI Chat",
+    template: "%s | TinyWhale",
+  },
+  description:
+    "Chat with open source large language models running entirely in your browser via WebGPU. No server, no data leaves your device. Powered by Transformers.js and ONNX Runtime Web.",
+  keywords: [
+    "in-browser AI",
+    "WebGPU",
+    "browser AI",
+    "transformers.js",
+    "open source LLM",
+    "local LLM",
+    "private AI",
+    "ONNX",
+    "web inference",
+  ],
+  authors: [{ name: "TinyWhale" }],
+  creator: "TinyWhale",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+    type: "website",
+    title: "TinyWhale - In-Browser AI Chat",
+    description:
+      "Chat with open source LLMs running entirely in your browser via WebGPU. No server, no data leaves your device.",
+    url: siteUrl,
+    siteName: "TinyWhale",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "TinyWhale - In-Browser AI Chat",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    title: "TinyWhale - In-Browser AI Chat",
+    description:
+      "Chat with open source LLMs running entirely in your browser via WebGPU. No server, no data leaves your device.",
+    images: ["/og-image.png"],
+    creator: "@tantara",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -38,13 +90,19 @@ export const viewport: Viewport = {
   ],
 };
 
-const geistSans = Geist({
+const fontSans = Inter({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
 });
-const geistMono = Geist_Mono({
+
+const fontSerif = Source_Serif_4({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-serif",
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -53,16 +111,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={cn(
           "bg-background text-foreground min-h-screen font-sans antialiased",
-          geistSans.variable,
-          geistMono.variable,
+          fontSans.variable,
+          fontSerif.variable,
+          fontMono.variable,
         )}
       >
         <ThemeProvider>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <div className="absolute right-4 bottom-4">
-            <ThemeToggle />
-          </div>
+          {props.children}
           <Toaster />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
