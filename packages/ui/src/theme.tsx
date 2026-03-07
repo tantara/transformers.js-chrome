@@ -20,12 +20,12 @@ export type ThemeMode = z.output<typeof ThemeModeSchema>;
 export type ResolvedTheme = Exclude<ThemeMode, "auto">;
 
 const getStoredThemeMode = (): ThemeMode => {
-  if (typeof window === "undefined") return "auto";
+  if (typeof window === "undefined") return "light";
   try {
     const storedTheme = localStorage.getItem(themeKey);
     return ThemeModeSchema.parse(storedTheme);
   } catch {
-    return "auto";
+    return "light";
   }
 };
 
@@ -79,8 +79,8 @@ export const themeDetectorScript = (function () {
       return validThemes.includes(theme as ThemeMode);
     };
 
-    const storedTheme = localStorage.getItem("theme-mode") ?? "auto";
-    const validTheme = isValidTheme(storedTheme) ? storedTheme : "auto";
+    const storedTheme = localStorage.getItem("theme-mode") ?? "light";
+    const validTheme = isValidTheme(storedTheme) ? storedTheme : "light";
 
     if (validTheme === "auto") {
       const autoTheme = window.matchMedia("(prefers-color-scheme: dark)")

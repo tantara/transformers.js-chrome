@@ -7,7 +7,7 @@ import { getBaseUrl } from "~/lib/url";
 
 export const auth = initAuth({
   baseUrl: getBaseUrl(),
-  productionUrl: `https://${env.VERCEL_PROJECT_PRODUCTION_URL ?? "tinywhale.vercel.app"}`,
+  productionUrl: `https://${env.VERCEL_PROJECT_PRODUCTION_URL ?? "tiny-whale.vercel.app"}`,
   secret: env.AUTH_SECRET,
   discordClientId: env.AUTH_DISCORD_ID,
   discordClientSecret: env.AUTH_DISCORD_SECRET,
