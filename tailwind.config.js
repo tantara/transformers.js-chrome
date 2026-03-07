@@ -2,7 +2,7 @@
 module.exports = {
   mode: "jit",
   darkMode: ["class", "class"],
-  content: ["./**/*.tsx"],
+  content: ["./{src,components,hooks,lib}/**/*.tsx"],
   theme: {
     extend: {
       colors: {
