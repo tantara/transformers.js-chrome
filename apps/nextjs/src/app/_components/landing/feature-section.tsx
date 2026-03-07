@@ -16,6 +16,8 @@ interface FeatureSectionProps {
   stat: StatCallout;
   imagePosition: "left" | "right";
   background?: "default" | "ocean";
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
 export function FeatureSection({
@@ -26,6 +28,8 @@ export function FeatureSection({
   stat,
   imagePosition,
   background = "default",
+  imageSrc,
+  imageAlt,
 }: FeatureSectionProps) {
   const isOcean = background === "ocean";
 
@@ -65,14 +69,25 @@ export function FeatureSection({
   );
 
   const image = (
-    <div className="flex aspect-video items-center justify-center overflow-hidden rounded-lg border border-ocean-mid/20 bg-gradient-to-br from-ocean-foam to-ocean-shallow p-8">
-      <div className="text-center text-ocean-text-muted/40">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} className="mx-auto mb-2 size-12">
-          <path d="M2 12C2 7 7 2 12 2s10 5 10 10-5 10-10 10S2 17 2 12Z" strokeLinecap="round" />
-          <path d="M5 12c0-2 1.5-4 3.5-5M12 22c2 0 4-1.5 5-3.5" strokeLinecap="round" />
-        </svg>
-        <p className="text-sm font-medium">Feature illustration</p>
-      </div>
+    <div className="overflow-hidden rounded-lg border border-ocean-mid/20 shadow-sm">
+      {imageSrc ? (
+        <img
+          src={imageSrc}
+          alt={imageAlt ?? "Feature screenshot"}
+          className="h-auto w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-ocean-foam to-ocean-shallow p-8">
+          <div className="text-center text-ocean-text-muted/40">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} className="mx-auto mb-2 size-12">
+              <path d="M2 12C2 7 7 2 12 2s10 5 10 10-5 10-10 10S2 17 2 12Z" strokeLinecap="round" />
+              <path d="M5 12c0-2 1.5-4 3.5-5M12 22c2 0 4-1.5 5-3.5" strokeLinecap="round" />
+            </svg>
+            <p className="text-sm font-medium">Feature illustration</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 
