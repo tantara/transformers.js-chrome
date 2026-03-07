@@ -58,7 +58,8 @@ const sed = () => {
     fs.copyFileSync(mathJaxSrc, mathJaxDst)
 
     // Copy MathJax CHTML fonts (woff-v2) — MathJax resolves them relative to the script location
-    const fontsSrc = `${process.cwd()}/node_modules/.pnpm/mathjax-full@3.2.2/node_modules/mathjax-full/es5/output/chtml/fonts/woff-v2`
+    const mathjaxDir = require.resolve("mathjax-full/package.json").replace(/\/package\.json$/, "")
+    const fontsSrc = `${mathjaxDir}/es5/output/chtml/fonts/woff-v2`
     const fontsDst = `${targetDir}/static/mathjax/output/chtml/fonts/woff-v2`
     fs.mkdirSync(fontsDst, { recursive: true })
     for (const file of fs.readdirSync(fontsSrc)) {

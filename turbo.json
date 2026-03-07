@@ -7,7 +7,7 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".cache/tsbuildinfo.json", "dist/**"]
+      "outputs": [".cache/tsbuildinfo.json", "dist/**", "build/**"]
     },
     "dev": {
       "dependsOn": ["^dev"],
