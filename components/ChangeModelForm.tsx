@@ -1,4 +1,4 @@
-import { AudioLines, Brain, FileImage, LetterText } from "lucide-react"
+import { AudioLines, LetterText } from "lucide-react"
 import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -7,6 +7,7 @@ import { DEFAULT_LLM_MODEL_CONFIG } from "~/genai/default-config"
 import { getModelList } from "~/genai/model-list"
 import type { ModelConfig, ModelTask } from "~/src/types"
 
+import CapabilityIcons from "./CapabilityIcons"
 import {
   Accordion,
   AccordionContent,
@@ -42,12 +43,6 @@ function ChangeModelForm() {
   return (
     <div className="flex flex-col max-w">
       <Card>
-        {/* <CardHeader>
-          <CardTitle>Payment Method</CardTitle>
-          <CardDescription>
-            Add a new payment method to your account.
-          </CardDescription>
-        </CardHeader> */}
         <CardContent className="grid gap-6 mt-4">
           <RadioGroup
             defaultValue={modelTask}
@@ -58,32 +53,17 @@ function ChangeModelForm() {
             }}>
             <div>
               <RadioGroupItem
-                value="text-generation"
-                id="text-generation"
+                value="llm"
+                id="llm"
                 className="peer sr-only"
-                aria-label="Text Generation"
-                checked={modelTask === "text-generation"}
+                aria-label="Language Model"
+                checked={modelTask === "llm"}
               />
               <Label
-                htmlFor="text-generation"
+                htmlFor="llm"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                 <LetterText className="mb-3 h-6 w-6" />
-                Text Generation
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem
-                value="multimodal-llm"
-                id="multimodal-llm"
-                className="peer sr-only"
-                aria-label="Multimodal LLM"
-                checked={modelTask === "multimodal-llm"}
-              />
-              <Label
-                htmlFor="multimodal-llm"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                <FileImage className="mb-3 h-6 w-6" />
-                Multimodal LLM
+                Language Model
               </Label>
             </div>
             <div>
@@ -101,41 +81,16 @@ function ChangeModelForm() {
                 Speech to Text
               </Label>
             </div>
-            <div>
-              <RadioGroupItem
-                value="reasoning"
-                id="reasoning"
-                className="peer sr-only"
-                aria-label="Reasoning"
-                checked={modelTask === "reasoning"}
-              />
-              <Label
-                htmlFor="reasoning"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ">
-                <Brain className="mb-3 h-6 w-6" />
-                Reasoning
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem
-                value="text-to-speech"
-                id="text-to-speech"
-                className="peer sr-only"
-                aria-label="Text to Speech"
-                checked={modelTask === "text-to-speech"}
-              />
-              <Label
-                htmlFor="text-to-speech"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary ">
-                <Brain className="mb-3 h-6 w-6" />
-                Text to Speech
-              </Label>
-            </div>
           </RadioGroup>
           <Accordion type="single" collapsible defaultValue={config.model_id}>
             {availableModels.map((model) => (
               <AccordionItem value={model.model_id} key={model.model_id}>
-                <AccordionTrigger>{model.model_id}</AccordionTrigger>
+                <AccordionTrigger>
+                  <span className="flex items-center">
+                    {model.model_id}
+                    <CapabilityIcons config={model} />
+                  </span>
+                </AccordionTrigger>
                 <AccordionContent>
                   {config.model_id == model.model_id && (
                     <Alert variant="destructive">

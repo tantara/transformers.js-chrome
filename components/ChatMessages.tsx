@@ -9,10 +9,23 @@ import { cn } from "~/lib/utils"
 import type { Message } from "~/src/types"
 
 const render = (text: string) => {
-  // return DOMPurify.sanitize(marked.parse(text, { async: false }))
-  // Replace all instances of single backslashes before brackets with double backslashes
-  // See https://github.com/markedjs/marked/issues/546 for more information.
-  text = text.replace(/\\([\[\]\(\)])/g, "\\\\$1")
+  // Unwrap LaTeX fenced code blocks (```latex ... ```) so MathJax can render them
+  text = text.replace(/```latex\s*\n([\s\S]*?)```/g, "$1")
+
+  // Protect LaTeX blocks from marked's backslash escaping.
+  const placeholders: string[] = []
+  const ph = (s: string) => {
+    placeholders.push(s)
+    return `%%MATH_${placeholders.length - 1}%%`
+  }
+
+  // Display math: $$...$$, \[...\], \begin{...}...\end{...}
+  text = text.replace(/\$\$[\s\S]*?\$\$/g, (m) => ph(m))
+  text = text.replace(/\\\[[\s\S]*?\\\]/g, (m) => ph(m))
+  text = text.replace(/\\begin\{[^}]+\}[\s\S]*?\\end\{[^}]+\}/g, (m) => ph(m))
+  // Inline math: $...$, \(...\)
+  text = text.replace(/\\\(.*?\\\)/g, (m) => ph(m))
+  text = text.replace(/(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)/g, (m) => ph(m))
 
   const result = DOMPurify.sanitize(
     marked.parse(text, {
@@ -20,7 +33,9 @@ const render = (text: string) => {
       breaks: true
     })
   )
-  return result
+
+  // Restore LaTeX blocks
+  return result.replace(/%%MATH_(\d+)%%/g, (_, i) => placeholders[Number(i)])
 }
 
 function ChatMessages({

@@ -1,13 +1,5 @@
 import { Storage } from "@plasmohq/storage"
 
-import type {
-  LLMModelConfig,
-  MLLMModelConfig,
-  ModelConfig,
-  ModelTask,
-  STTModelConfig
-} from "~/src/types"
-
 const storage = new Storage()
 
 // Add WebGPU type declarations
@@ -23,20 +15,7 @@ declare global {
   }
 }
 
-type ModelConfigMap = {
-  "text-generation": LLMModelConfig
-  "multimodal-llm": MLLMModelConfig
-  "speech-to-text": STTModelConfig
-}
-
 class ModelRegistry {
-  static async getModelConfig<T extends ModelTask>(
-    task: T
-  ): Promise<ModelConfigMap[T] | undefined> {
-    const modelConfig = (await storage.get("model_config")) as ModelConfig
-    return modelConfig as ModelConfigMap[T]
-  }
-
   static async checkWebGPU() {
     let fp16_supported = false
     try {
@@ -59,8 +38,7 @@ class ModelRegistry {
   }
 
   static async fp16Supported(): Promise<boolean> {
-    const fp16_supported = await this.checkWebGPU()
-    return fp16_supported
+    return await this.checkWebGPU()
   }
 }
 

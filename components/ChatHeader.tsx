@@ -27,6 +27,7 @@ import {
   TooltipTrigger
 } from "~/components/ui/tooltip"
 
+import CapabilityIcons from "./CapabilityIcons"
 import ChangeModelForm from "./ChangeModelForm"
 import GenerationConfigForm from "./GenerationConfigForm"
 import ModelRegistryForm from "./ModelRegistryForm"
@@ -39,12 +40,14 @@ import {
   DialogTrigger
 } from "./ui/dialog"
 
+import type { ModelConfig } from "~/src/types"
+
 function ChatHeader({
-  modelName,
+  modelConfig,
   onNewChat,
   hasChat
 }: {
-  modelName: string
+  modelConfig: ModelConfig
   onNewChat: () => void
   hasChat: boolean
 }) {
@@ -71,15 +74,16 @@ function ChatHeader({
         justifyContent: "space-between",
         alignItems: "center"
       }}>
-      <h2 className="text-sm font-bold">
+      <h2 className="text-sm font-bold flex items-center">
         Chat with{" "}
         <a
-          href={`https://huggingface.co/${modelName}`}
+          href={`https://huggingface.co/${modelConfig.model_id}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 underline">
-          {modelName.split("/")[1]}
+          className="text-blue-500 underline ml-1">
+          {modelConfig.model_id.split("/")[1]}
         </a>
+        <CapabilityIcons config={modelConfig} />
       </h2>
       <div style={{ display: "flex", gap: 2 }}>
         <TooltipProvider delayDuration={0}>

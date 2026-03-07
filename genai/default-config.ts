@@ -4,19 +4,22 @@ import type { LLMModelConfig } from "~/src/types"
 
 const DEFAULT_GENERATION_CONFIG = {
   do_sample: true,
-  top_k: 3,
-  temperature: 0.2,
-  top_p: 0.9,
-  max_new_tokens: 512,
-  repetition_penalty: 1.0
+  temperature: 0.7,
+  top_p: 0.8,
+  top_k: 20,
+  min_p: 0.0,
+  repetition_penalty: 1.0,
+  max_new_tokens: 2048
 } as GenerationConfig
 
 const DEFAULT_LLM_MODEL_CONFIG = {
-  task: "text-generation",
+  task: "llm",
   model_id: "onnx-community/Qwen3.5-0.8B-ONNX",
   dtype: "q4f16",
   device: "webgpu",
-  use_external_data_format: true
+  use_external_data_format: true,
+  supports_vision: true,
+  auto_model: "image-text-to-text"
 } as LLMModelConfig
 
 export { DEFAULT_GENERATION_CONFIG, DEFAULT_LLM_MODEL_CONFIG }

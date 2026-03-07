@@ -23,7 +23,7 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { DEFAULT_LLM_MODEL_CONFIG } from "~/genai/default-config"
 import { IMAGE_GENERATION_COMMAND_PREFIX } from "~/genai/model-list"
-import type { Message, ModelConfig, ProgressItem } from "~/src/types"
+import type { LLMModelConfig, Message, ModelConfig, ProgressItem } from "~/src/types"
 
 // import AudioRecorder from "./AudioRecorder"
 import {
@@ -132,10 +132,11 @@ function Chat() {
   }, [])
 
   useEffect(() => {
+    const isVision = modelConfig.task === "llm" && (modelConfig as LLMModelConfig).supports_vision
     setEnableDropzone(
-      ["multimodal-llm", "speech-to-text"].includes(modelConfig.task)
+      isVision || modelConfig.task === "speech-to-text"
     )
-  }, [modelConfig.task])
+  }, [modelConfig])
 
   const {
     getRootProps,
@@ -545,7 +546,7 @@ function Chat() {
       }}>
       {/* Fixed Header */}
       <ChatHeader
-        modelName={modelConfig.model_id}
+        modelConfig={modelConfig}
         onNewChat={() => {
           setMessages([])
           setInputText("")
@@ -567,7 +568,7 @@ function Chat() {
         <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
       ) : (
         <ChatExamples
-          task={modelConfig.task}
+          config={modelConfig}
           onExampleClick={(example) => {
             if (example.image) {
               handleImageUrl(example.image)
@@ -869,11 +870,10 @@ function Chat() {
                   <ArrowUp className="w-4 h-4" />
                 </Button>
               )}
-              {!isGenerating && enableDropzone && (
+              {!isGenerating && modelConfig.task === "llm" && (modelConfig as LLMModelConfig).supports_image_generation && (
                 <Button
                   size="icon"
                   onClick={() => {
-                    // handleImageSubmit()
                     handleSubmit(`${IMAGE_GENERATION_COMMAND_PREFIX} `)
                   }}
                   disabled={
