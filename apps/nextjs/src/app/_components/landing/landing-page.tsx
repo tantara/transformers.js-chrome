@@ -37,6 +37,8 @@ export function LandingPage() {
           stat={{ value: "0 bytes", label: "sent to any server" }}
           imagePosition="right"
           background="ocean"
+          imageSrc="/example-summarize.jpg"
+          imageAlt="Text summarization demo showing the Chrome extension summarizing a research paper"
         />
       </div>
 
@@ -64,6 +66,8 @@ export function LandingPage() {
         ]}
         stat={{ value: "0.8B params", label: "compact yet capable" }}
         imagePosition="left"
+        imageSrc="/example-image-caption.jpg"
+        imageAlt="Image captioning demo showing the extension describing a Grand Canyon photo"
       />
 
       {/* Section 3: muted bg */}
@@ -91,6 +95,8 @@ export function LandingPage() {
         stat={{ value: "~40 tok/s", label: "on modern laptops" }}
         imagePosition="right"
         background="ocean"
+        imageSrc="/example-write-code.jpg"
+        imageAlt="Code generation demo showing the extension writing Python code with generation settings"
       />
 
       {/* Section 4: default bg */}

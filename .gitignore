@@ -19,6 +19,7 @@ next-env.d.ts
 
 # expo
 .expo/
+.expo-shared/
 expo-env.d.ts
 apps/expo/.gitignore
 apps/expo/ios

@@ -253,6 +253,18 @@ export function ChatDemo() {
             >
               Load Model
             </Button>
+            <div className="text-ocean-text-muted mt-2 text-xs">
+              <a
+                href="https://huggingface.co/onnx-community/Qwen3.5-0.8B-ONNX"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ocean-text-muted hover:text-ocean-deep hover:underline"
+              >
+                Qwen3.5-0.8B-ONNX
+              </a>
+              <span className="mx-1 text-ocean-text-muted/50">·</span>
+              <span>~500 MB</span>
+            </div>
           </div>
         </div>
       )}
@@ -330,6 +342,18 @@ export function ChatDemo() {
             >
               {showSettings ? "Hide Settings" : "Settings"}
             </Button>
+            {status === "ready" && (
+              <span className="text-ocean-text-muted/70 text-xs">
+                <a
+                  href="https://huggingface.co/onnx-community/Qwen3.5-0.8B-ONNX"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-ocean-deep hover:underline"
+                >
+                  Qwen3.5-0.8B-ONNX
+                </a>
+              </span>
+            )}
           </div>
 
           {showSettings && (
