@@ -21,9 +21,46 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     letter-spacing: var(--tracking-normal);
   }
+}
+
+/* Ocean theme for landing page */
+:root {
+  --ocean-foam: #f0fafe;
+  --ocean-shallow: #e0f4fb;
+  --ocean-light: #b8e6f5;
+  --ocean-mid: #7cc8e8;
+  --ocean-deep: #1a6fa0;
+  --ocean-abyss: #0c2d48;
+  --ocean-sand: #fdf6ec;
+  --ocean-text: #0c2d48;
+  --ocean-text-muted: #1a6fa0;
+
+  @variant dark {
+    --ocean-foam: #0c2535;
+    --ocean-shallow: #0f2d3d;
+    --ocean-light: #12384d;
+    --ocean-mid: #1a5270;
+    --ocean-deep: #5bb8db;
+    --ocean-abyss: #060f18;
+    --ocean-sand: #1a1a14;
+    --ocean-text: #b8e6f5;
+    --ocean-text-muted: #7cc8e8;
+  }
+}
+
+@theme inline {
+  --color-ocean-foam: var(--ocean-foam);
+  --color-ocean-shallow: var(--ocean-shallow);
+  --color-ocean-light: var(--ocean-light);
+  --color-ocean-mid: var(--ocean-mid);
+  --color-ocean-deep: var(--ocean-deep);
+  --color-ocean-abyss: var(--ocean-abyss);
+  --color-ocean-sand: var(--ocean-sand);
+  --color-ocean-text: var(--ocean-text);
+  --color-ocean-text-muted: var(--ocean-text-muted);
 }

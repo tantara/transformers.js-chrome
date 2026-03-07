@@ -104,6 +104,23 @@ Runs after each Plasmo build (configured via `POST_BUILD_SCRIPT` in `.env`):
 
 `"packageExports": true` in package.json enables Node exports map resolution. The `url` dependency is pinned to `0.11.0` to avoid pulling in `math-intrinsics` which breaks Parcel's export resolution.
 
+## Ocean Theme (Next.js)
+
+The Next.js app uses a custom ocean color palette defined in `apps/nextjs/src/app/styles.css`. Use these instead of generic shadcn colors (`bg-card`, `text-primary`, `bg-muted`, `text-muted-foreground`) for consistency across all pages.
+
+| Token | Light | Dark | Usage |
+|---|---|---|---|
+| `ocean-foam` | `#f0fafe` | `#0c2535` | Page backgrounds |
+| `ocean-shallow` | `#e0f4fb` | `#0f2d3d` | Card/bubble backgrounds, sections |
+| `ocean-light` | `#b8e6f5` | `#12384d` | Accent backgrounds |
+| `ocean-mid` | `#7cc8e8` | `#1a5270` | Borders (`border-ocean-mid/20`), decorative |
+| `ocean-deep` | `#1a6fa0` | `#5bb8db` | Primary buttons, links, icons |
+| `ocean-abyss` | `#0c2d48` | `#060f18` | Dark sections (CTA, footer) |
+| `ocean-text` | `#0c2d48` | `#b8e6f5` | Headings, body text |
+| `ocean-text-muted` | `#1a6fa0` | `#7cc8e8` | Secondary text, descriptions |
+
+**Dark mode note**: `bg-ocean-deep` becomes light in dark mode, so pair with `dark:text-ocean-abyss` (not `text-white`) for buttons and user chat bubbles.
+
 ## Key Patterns
 
 - **Streaming inference**: Background service worker runs model, streams tokens via `chrome.runtime.sendMessage` to sidepanel
