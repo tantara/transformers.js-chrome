@@ -14,7 +14,7 @@
     "test:inference": "node test/inference.mjs"
   },
   "dependencies": {
-    "@huggingface/transformers": "^3.8.1",
+    "@huggingface/transformers": "4.0.0-next.6",
     "@plasmohq/storage": "^1.15.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-context-menu": "^2.2.16",
@@ -52,6 +52,7 @@
     "path-browserify": "^1.0.0",
     "postcss": "^8.5.8",
     "prettier": "3.8.1",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.4.19",
     "typescript": "5.9.3",
     "url": "0.11.0"
@@ -87,4 +88,5 @@
   },
   "@parcel/resolver-default": {
     "packageExports": true
-  }}
+  }
+}
