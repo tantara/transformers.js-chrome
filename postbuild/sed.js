@@ -34,11 +34,11 @@ const sed = () => {
     // Fix Parcel dep map mismatch: Parcel maps bare Node builtins (e.g. "fs")
     // to "node:fs" in the dependency map, but emits require("fs") in the code.
     // Rewrite the require calls to use the "node:" prefix so they resolve correctly.
-    // Handles both minified t("fs") and unminified require("fs") patterns.
-    const builtins = ["fs", "path", "url"]
+    // Handles minified single-letter requires like e("fs") and unminified require("fs").
+    const builtins = ["fs", "path", "url", "stream", "stream/promises"]
     for (const mod of builtins) {
       const patterns = [
-        new RegExp(`t\\("${mod}"\\)`, "g"),
+        new RegExp(`([a-z])\\("${mod}"\\)`, "g"),
         new RegExp(`require\\("${mod}"\\)`, "g"),
       ]
       for (const pattern of patterns) {

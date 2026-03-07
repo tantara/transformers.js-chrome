@@ -13,10 +13,10 @@ const DEFAULT_GENERATION_CONFIG = {
 
 const DEFAULT_LLM_MODEL_CONFIG = {
   task: "text-generation",
-  model_id: "onnx-community/Llama-3.2-1B-Instruct-q4f16",
+  model_id: "onnx-community/Qwen3.5-0.8B-ONNX",
   dtype: "q4f16",
   device: "webgpu",
-  use_external_data_format: false
+  use_external_data_format: true
 } as LLMModelConfig
 
 export { DEFAULT_GENERATION_CONFIG, DEFAULT_LLM_MODEL_CONFIG }
