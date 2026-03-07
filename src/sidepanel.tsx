@@ -1,9 +1,10 @@
 import "~/src/index.css"
 
 import { MathJaxContext } from "better-react-mathjax"
-import mathJaxJs from "raw:~/thirdparty/mathjax/3.2.2/es5/tex-mml-chtml.js"
 
 import Chat from "~/components/Chat"
+
+const mathJaxSrc = chrome.runtime.getURL("static/mathjax/tex-mml-chtml.js")
 
 function ChromeSidePanel() {
   const config = {
@@ -18,7 +19,7 @@ function ChromeSidePanel() {
     }
   }
   return (
-    <MathJaxContext config={config} src={mathJaxJs}>
+    <MathJaxContext config={config} version={3} src={mathJaxSrc}>
       <Chat />
     </MathJaxContext>
   )

@@ -3,12 +3,7 @@ import {
   DEVICE_TYPES
 } from "@huggingface/transformers/src/utils/dtypes"
 
-type ModelTask =
-  | "text-generation"
-  | "multimodal-llm"
-  | "speech-to-text"
-  | "reasoning"
-  | "text-to-speech"
+type ModelTask = "llm" | "speech-to-text" | "text-to-speech"
 
 interface Message {
   role: "user" | "assistant"
@@ -30,33 +25,35 @@ interface BaseModelConfig {
 }
 
 interface LLMModelConfig extends BaseModelConfig {
-  task: "text-generation"
+  task: "llm"
   model_id: string
-  dtype: DATA_TYPES
-  device: DEVICE_TYPES
-  use_external_data_format: boolean
-}
-
-interface MLLMModelConfig extends BaseModelConfig {
-  task: "multimodal-llm"
-  model_id: string
-  dtype: {
-    prepare_inputs_embeds: DATA_TYPES
-    language_model: DATA_TYPES
-    lm_head: DATA_TYPES
-    gen_head: DATA_TYPES
-    gen_img_embeds: DATA_TYPES
-    image_decode: DATA_TYPES
-  }
-  device: {
-    prepare_inputs_embeds: DEVICE_TYPES
-    language_model: DEVICE_TYPES
-    lm_head: DEVICE_TYPES
-    gen_head: DEVICE_TYPES
-    gen_img_embeds: DEVICE_TYPES
-    image_decode: DEVICE_TYPES
-  }
-  // use_external_data_format: boolean
+  dtype:
+    | DATA_TYPES
+    | {
+        prepare_inputs_embeds: DATA_TYPES
+        language_model: DATA_TYPES
+        lm_head: DATA_TYPES
+        gen_head: DATA_TYPES
+        gen_img_embeds: DATA_TYPES
+        image_decode: DATA_TYPES
+      }
+  device:
+    | DEVICE_TYPES
+    | {
+        prepare_inputs_embeds: DEVICE_TYPES
+        language_model: DEVICE_TYPES
+        lm_head: DEVICE_TYPES
+        gen_head: DEVICE_TYPES
+        gen_img_embeds: DEVICE_TYPES
+        image_decode: DEVICE_TYPES
+      }
+  use_external_data_format?: boolean
+  // Capabilities
+  supports_vision?: boolean
+  supports_reasoning?: boolean
+  supports_image_generation?: boolean
+  // Which Auto class to use for loading
+  auto_model?: "causal-lm" | "image-text-to-text" | "multimodality"
 }
 
 interface STTModelConfig extends BaseModelConfig {
@@ -69,14 +66,6 @@ interface STTModelConfig extends BaseModelConfig {
   device: DEVICE_TYPES
 }
 
-interface ReasoningModelConfig extends BaseModelConfig {
-  task: "reasoning"
-  model_id: string
-  dtype: DATA_TYPES
-  device: DEVICE_TYPES
-  use_external_data_format: boolean
-}
-
 interface TTSModelConfig extends BaseModelConfig {
   task: "text-to-speech"
   model_id: string
@@ -85,12 +74,7 @@ interface TTSModelConfig extends BaseModelConfig {
   language: string
 }
 
-type ModelConfig =
-  | LLMModelConfig
-  | MLLMModelConfig
-  | STTModelConfig
-  | ReasoningModelConfig
-  | TTSModelConfig
+type ModelConfig = LLMModelConfig | STTModelConfig | TTSModelConfig
 
 export type {
   Message,
@@ -98,8 +82,6 @@ export type {
   ModelConfig,
   ModelTask,
   LLMModelConfig,
-  MLLMModelConfig,
   STTModelConfig,
-  ReasoningModelConfig,
   TTSModelConfig
 }
