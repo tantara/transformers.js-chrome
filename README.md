@@ -1,8 +1,57 @@
-# 🚧 Transformers.js Chrome Extension 🚧
+# Transformers.js Chrome Extension
 
 This is an example Chrome extension for [Transformers.js](https://github.com/huggingface/transformers.js), a library for running LLMs in the browser, built on top of [Plasmo](https://plasmo.com/).
 
-⚠️ **Please note that this project is still under development and is not ready for production or enterprise use.** APIs, features, and code structures may change without notice. The Chrome extension process could also be stopped by the browser at any time. Thank you for your understanding! 🙏
+> **Note:** This project is still under development and is not ready for production or enterprise use. APIs, features, and code structures may change without notice. The Chrome extension process could also be stopped by the browser at any time.
+
+## Monorepo Structure
+
+This project uses [Turborepo](https://turborepo.com) with pnpm workspaces:
+
+```text
+apps
+  ├─ plasmo
+  │   ├─ Chrome Extension (MV3)
+  │   ├─ Transformers.js + WebGPU inference
+  │   ├─ React 19 + Tailwind CSS v3
+  │   └─ Built with Plasmo framework
+  ├─ expo
+  │   ├─ Expo SDK 54
+  │   ├─ React Native 0.81 using React 19
+  │   ├─ Navigation using Expo Router
+  │   ├─ Tailwind CSS v4 using NativeWind v5
+  │   └─ Typesafe API calls using tRPC
+  ├─ nextjs
+  │   ├─ Next.js 15
+  │   ├─ React 19
+  │   ├─ Tailwind CSS v4
+  │   └─ E2E Typesafe API Server & Client
+  └─ tanstack-start
+      ├─ Tanstack Start v1 (rc)
+      ├─ React 19
+      ├─ Tailwind CSS v4
+      └─ E2E Typesafe API Server & Client
+packages
+  ├─ api
+  │   └─ tRPC v11 router definition
+  ├─ auth
+  │   └─ Authentication using better-auth
+  ├─ db
+  │   └─ Typesafe db calls using Drizzle & Supabase
+  └─ ui
+      └─ Start of a UI package for the webapp using shadcn-ui
+tooling
+  ├─ eslint
+  │   └─ shared, fine-grained, eslint presets
+  ├─ prettier
+  │   └─ shared prettier configuration
+  ├─ tailwind
+  │   └─ shared tailwind theme and configuration
+  └─ typescript
+      └─ shared tsconfig you can extend from
+```
+
+> In this template, we use `@acme` as a placeholder for package names. As a user, you might want to replace it with your own organization or project name.
 
 ## Examples
 
@@ -55,41 +104,49 @@ Prompt: "Write python code to compute the nth fibonacci number."
 | [Whipser Base](https://huggingface.co/onnx-community/whisper-base) (fp32 + q4)                  | 30.5 tokens/sec |
 | [DeepSeek R1](https://huggingface.co/onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX) (q4f16) | 32.7 tokens/sec |
 
-
 ## Installation
 
-### Chrome Web Store
+### Prerequisites
 
-Install '[Private AI Assistant[(https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp)]' from the Chrome Web Store.
-
-### From source
-
-You should install `node` and `pnpm` to build the project.
-
-First, install the dependencies:
+Make sure to follow the system requirements specified in [`package.json#engines`](./package.json#L4) before proceeding.
 
 ```bash
+# Install dependencies
 pnpm install
 ```
 
-Then, start the development server:
+### Chrome Web Store
+
+Install '[Private AI Assistant](https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp)' from the Chrome Web Store.
+
+### From source (Plasmo Chrome Extension)
+
+Start the development server:
 
 ```bash
-pnpm dev
+pnpm dev:plasmo
 ```
 
-Open your Chrome browser (i.e. `chrome://extensions`) and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+Open your Chrome browser (`chrome://extensions`) and load the appropriate development build: `apps/plasmo/build/chrome-mv3-dev`.
 
 For further guidance, [visit Plasmo's Documentation](https://docs.plasmo.com/) or create an issue.
 
-## Deployment
-
-### Making production build
-
-Run the following:
+### Next.js / Expo / Tanstack Start
 
 ```bash
-pnpm build & pnpm package
+pnpm dev:next    # Next.js app
+pnpm dev         # All apps
+```
+
+See the [Expo setup guide](#expo-setup) below for mobile development.
+
+## Deployment
+
+### Making production build (Plasmo)
+
+```bash
+cd apps/plasmo
+pnpm build && pnpm package
 ```
 
 This should create a production bundle for your extension, ready to be zipped and published to the stores.
@@ -97,6 +154,23 @@ This should create a production bundle for your extension, ready to be zipped an
 ### Submit to the webstores
 
 The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+
+### Next.js
+
+Deploy the Next.js application to [Vercel](https://vercel.com). Select the `apps/nextjs` folder as the root directory. Add your `POSTGRES_URL` environment variable.
+
+### Expo Setup
+
+#### Use iOS Simulator
+
+1. Make sure you have XCode and XCommand Line Tools installed [as shown on expo docs](https://docs.expo.dev/workflow/ios-simulator).
+2. Run `pnpm dev` at the project root folder.
+
+#### Use Android Emulator
+
+1. Install Android Studio tools [as shown on expo docs](https://docs.expo.dev/workflow/android-studio-emulator).
+2. Change the `dev` script at `apps/expo/package.json` to open the Android emulator.
+3. Run `pnpm dev` at the project root folder.
 
 ## Debugging
 
@@ -124,10 +198,6 @@ Run Chrome extension, open `inspect`, go to `Application` tab, find `Local Stora
 - [Transformers.js V2 Chrome Extension](https://github.com/huggingface/transformers.js/tree/main/examples/extension)
 - [Plasmo Documentation](https://docs.plasmo.com/)
 - [WebLLM](https://webllm.mlc.ai/) and its [Chrome Extension](https://github.com/mlc-ai/web-llm/tree/main/examples/chrome-extension-webgpu-service-worker)
+- [create-t3-turbo](https://github.com/t3-oss/create-t3-turbo) — Monorepo template
 - [gpu.cpp](https://github.com/AnswerDotAI/gpu.cpp)
-- https://github.com/huggingface/transformers.js/issues/986
-- https://github.com/microsoft/onnxruntime/issues/20876
-- https://github.com/ggaabe/extension
-- https://github.com/xenova/whisper-web
-- https://www.mathjax.org/
 - [Ilya Sutskever NeurIPS 2024 full talk (Youtube)](https://www.youtube.com/watch?v=YD-9NG1Ke5Y)
