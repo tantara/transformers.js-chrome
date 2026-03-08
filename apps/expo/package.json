@@ -36,6 +36,7 @@
     "expo-status-bar": "~3.0.8",
     "expo-system-ui": "~6.0.8",
     "expo-web-browser": "~15.0.8",
+    "llama.rn": "file:../../llama.rn",
     "lucide-react-native": "^0.545.0",
     "nativewind": "5.0.0-preview.2",
     "react": "catalog:react19",

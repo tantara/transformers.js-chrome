@@ -56,5 +56,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         },
       },
     ],
+    [
+      "llama.rn",
+      {
+        enableEntitlements: true,
+        forceCxx20: true,
+        enableOpenCLAndHexagon: true,
+      },
+    ],
   ],
 });

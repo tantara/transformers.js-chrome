@@ -147,6 +147,14 @@ export default function Index() {
           Tiny<Text className="text-primary">Whale</Text>
         </Text>
 
+        <Link asChild href="/chat">
+          <Pressable className="mb-4 flex items-center rounded-xl bg-primary p-4">
+            <Text className="text-lg font-semibold text-primary-foreground">
+              AI Chat (On-Device)
+            </Text>
+          </Pressable>
+        </Link>
+
         <MobileAuth />
 
         <View className="py-2">

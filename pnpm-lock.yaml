@@ -179,6 +179,9 @@ importers:
       expo-web-browser:
         specifier: ~15.0.8
         version: 15.0.8(expo@54.0.20)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))
+      llama.rn:
+        specifier: file:../../llama.rn
+        version: file:llama.rn(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
       lucide-react-native:
         specifier: ^0.545.0
         version: 0.545.0(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
@@ -8675,6 +8678,13 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  llama.rn@file:llama.rn:
+    resolution: {directory: llama.rn, type: directory}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   lmdb@2.5.2:
     resolution: {integrity: sha512-V5V5Xa2Hp9i2XsbDALkBTeHXnBXh/lEmk9p22zdr7jtuOIY9TGhjK6vAvTpOOx9IKU4hJkRWZxn/HsvR1ELLtA==}
 
@@ -13098,7 +13108,7 @@ snapshots:
       metro-babel-transformer: 0.83.2
       metro-cache: 0.83.2
       metro-cache-key: 0.83.2
-      metro-config: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      metro-config: 0.83.2(bufferutil@4.0.8)
       metro-core: 0.83.2
       metro-file-map: 0.83.2
       metro-resolver: 0.83.2
@@ -21301,6 +21311,11 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
+  llama.rn@file:llama.rn(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4):
+    dependencies:
+      react: 19.1.4
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
+
   lmdb@2.5.2:
     dependencies:
       msgpackr: 1.11.8
@@ -21593,21 +21608,6 @@ snapshots:
       flow-enums-runtime: 0.0.6
       jest-validate: 29.7.0
       metro: 0.83.2(bufferutil@4.0.8)
-      metro-cache: 0.83.2
-      metro-core: 0.83.2
-      metro-runtime: 0.83.2
-      yaml: 2.8.1
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  metro-config@0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4):
-    dependencies:
-      connect: 3.7.0
-      flow-enums-runtime: 0.0.6
-      jest-validate: 29.7.0
-      metro: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       metro-cache: 0.83.2
       metro-core: 0.83.2
       metro-runtime: 0.83.2
@@ -21942,7 +21942,7 @@ snapshots:
       metro-babel-transformer: 0.83.2
       metro-cache: 0.83.2
       metro-cache-key: 0.83.2
-      metro-config: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      metro-config: 0.83.2(bufferutil@4.0.8)
       metro-core: 0.83.2
       metro-file-map: 0.83.2
       metro-resolver: 0.83.2
