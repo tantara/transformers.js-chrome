@@ -8,7 +8,7 @@ Monorepo for on-device AI inference apps. Uses [Turborepo](https://turborepo.com
 
 ### Apps
 
-- `apps/plasmo` — Chrome extension (MV3) running LLM inference locally via Transformers.js and WebGPU
+- `apps/plasmo` — Browser extension (Chrome MV3, Firefox MV2, Safari) running LLM inference locally via Transformers.js and WebGPU
 - `apps/nextjs` — Next.js 15 web app
 - `apps/expo` — Expo SDK 54 / React Native mobile app
 - `apps/tanstack-start` — Tanstack Start web app
@@ -26,20 +26,50 @@ Monorepo for on-device AI inference apps. Uses [Turborepo](https://turborepo.com
 ```bash
 # Monorepo root
 pnpm dev              # Run all apps
-pnpm dev:plasmo       # Run plasmo Chrome extension only
+pnpm dev:chrome       # Run plasmo Chrome extension only
+pnpm dev:firefox      # Run plasmo Firefox extension only
+pnpm dev:plasmo       # Run both Chrome + Firefox via Turbo TUI
 pnpm dev:next         # Run Next.js app only
 
 # Inside apps/plasmo
 pnpm dev              # Start dev server → build/chrome-mv3-dev/
+pnpm dev:chrome       # Same as pnpm dev
+pnpm dev:firefox      # Firefox dev server → build/firefox-mv2-dev/
 pnpm build            # Production build → build/chrome-mv3-prod/
+pnpm build:firefox    # Firefox production build → build/firefox-mv2-prod/
+pnpm build:safari     # Build Chrome MV3 then convert to Safari Xcode project → build/safari/
 pnpm package          # Create zip for Chrome Web Store
+pnpm package:firefox  # Create zip for Firefox Add-ons
 pnpm test:background  # Smoke test prod background.js for missing modules
+pnpm test:firefox     # Smoke test Firefox prod background.js
+pnpm test:safari      # Smoke test + verify Safari conversion prerequisites
 pnpm test:background build/chrome-mv3-dev/static/background/index.js  # Test dev build
 ```
 
 **Run `pnpm test:background` after any change to aliases, stubs, postinstall, postbuild, or dependencies** — it catches "Cannot find module" errors instantly without needing to load the extension in Chrome.
 
-Load the extension in Chrome: `chrome://extensions` → Developer mode → Load unpacked → select `apps/plasmo/build/chrome-mv3-dev` or `apps/plasmo/build/chrome-mv3-prod`.
+### Loading Extensions
+
+- **Chrome**: `chrome://extensions` → Developer mode → Load unpacked → `apps/plasmo/build/chrome-mv3-dev`
+- **Firefox**: `about:debugging#/runtime/this-firefox` → Load Temporary Add-on → any file in `apps/plasmo/build/firefox-mv2-dev`
+- **Safari**: `pnpm build:safari` → open Xcode project at `build/safari/` → build & run → enable in Safari Settings > Extensions
+
+## Firefox & Safari Notes
+
+### Firefox (MV2)
+
+- Uses Manifest V2 (`browser_action` + `sidebar_action` instead of MV3 `side_panel`)
+- WebGPU has **limited GPU memory** — use the smallest models (e.g. Qwen2.5-0.5B). Models 0.8B+ (including Qwen3.5-0.8B) may hit "Not enough memory" errors at runtime.
+- `q4f16` dtype requires `shader-f16`; the extension auto-detects and falls back to `q4` when unavailable.
+- HMR websocket does not connect in extension context — reload manually after code changes.
+- Debug via `about:debugging#/runtime/this-firefox` → Inspect on the extension.
+- PostBuild (`postbuild/sed.js`) patches the Firefox manifest to add `browser_specific_settings.gecko`, `sidebar_action`, and `<all_urls>` permission.
+
+### Safari
+
+- Converted from Chrome MV3 build via `xcrun safari-web-extension-converter` (requires Xcode 14+).
+- `sidePanel` permission and `side_panel` key are stripped during conversion (not supported in Safari).
+- WebGPU support is experimental and varies by macOS version.
 
 ## Plasmo Chrome Extension Architecture
 

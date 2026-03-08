@@ -252,6 +252,19 @@ function Chat() {
             }
           ]
         })
+      } else if (message.status === "error") {
+        console.log("[Chat] received error:", message.data)
+        setIsGenerating(false)
+        setMessages((prev) => {
+          const updated = [...prev]
+          const lastIdx = updated.length - 1
+          if (lastIdx >= 0 && updated[lastIdx].role === "assistant") {
+            updated[lastIdx] = { ...updated[lastIdx], content: `⚠️ ${message.data.message}` }
+          } else {
+            updated.push({ role: "assistant", content: `⚠️ ${message.data.message}` })
+          }
+          return updated
+        })
       } else if (message.status === "append") {
         setMessages((prev) => [...prev, ...message.data.messages])
       } else if (message.status === "end") {
