@@ -2,9 +2,9 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+  name: "TinyWhale",
+  slug: "tinywhale",
+  scheme: "tinywhale",
   version: "0.1.0",
   orientation: "portrait",
   icon: "./assets/icon-light.png",
@@ -15,7 +15,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "dev.tantara.tinywhale",
     supportsTablet: true,
     icon: {
       light: "./assets/icon-light.png",
@@ -23,10 +23,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   android: {
-    package: "your.bundle.identifier",
+    package: "dev.tantara.tinywhale",
     adaptiveIcon: {
       foregroundImage: "./assets/icon-light.png",
-      backgroundColor: "#1F104A",
+      backgroundColor: "#0c2d48",
     },
     edgeToEdgeEnabled: true,
   },
@@ -48,10 +48,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#E4E4E7",
+        backgroundColor: "#f0fafe",
         image: "./assets/icon-light.png",
         dark: {
-          backgroundColor: "#18181B",
+          backgroundColor: "#0c2535",
           image: "./assets/icon-dark.png",
         },
       },
