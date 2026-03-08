@@ -51,6 +51,7 @@ export function ChatDemo() {
 
   const [status, setStatus] = useState<"loading" | "ready" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [webGPUSupported, setWebGPUSupported] = useState<boolean | null>(null);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [progressItems, setProgressItems] = useState<any[]>([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -90,6 +91,11 @@ export function ChatDemo() {
     setMessages([]);
     setTps(null);
     setNumTokens(null);
+  }, []);
+
+  // Check WebGPU support
+  useEffect(() => {
+    setWebGPUSupported(typeof navigator !== "undefined" && !!navigator.gpu);
   }, []);
 
   // Auto-resize textarea
@@ -237,6 +243,21 @@ export function ChatDemo() {
               Chat with open source large language models running entirely in
               your browser via WebGPU. No data leaves your device.
             </p>
+            {webGPUSupported === false && (
+              <div className="mx-auto mb-4 flex max-w-md items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-left dark:border-red-800 dark:bg-red-950" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 size-5 shrink-0 text-red-600 dark:text-red-400">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                  <path d="M12 9v4" />
+                  <path d="M12 17h.01" />
+                </svg>
+                <div>
+                  <h5 className="mb-1 font-medium leading-none tracking-tight text-red-800 dark:text-red-300">Device Not Supported</h5>
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    Your browser does not support WebGPU, which is required for on-device AI inference. Please upgrade your browser or try with another device.
+                  </p>
+                </div>
+              </div>
+            )}
             {error && (
               <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950 dark:text-red-400">
                 {error}
@@ -249,7 +270,7 @@ export function ChatDemo() {
                 worker.current?.postMessage({ type: "load" });
                 setStatus("loading");
               }}
-              disabled={status !== null}
+              disabled={status !== null || webGPUSupported === false}
             >
               Load Model
             </Button>

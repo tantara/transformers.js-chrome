@@ -40,14 +40,23 @@ interface Message {
       }
 }
 
-chrome.sidePanel
-  .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((error) => console.error(error))
+// chrome.sidePanel is Chrome-only; Firefox uses sidebar_action (manifest-driven)
+if (chrome.sidePanel?.setPanelBehavior) {
+  chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: true })
+    .catch((error) => console.error(error))
+}
 
 const sendToSidePanel = (data) => {
-  chrome.runtime
-    .sendMessage(data)
-    .catch((err) => console.log("Side panel may not be open:", err))
+  try {
+    const result = chrome.runtime.sendMessage(data)
+    // Chrome returns a Promise; Firefox MV2 returns undefined
+    if (result?.catch) {
+      result.catch((err) => console.log("Side panel may not be open:", err))
+    }
+  } catch (err) {
+    console.log("Side panel may not be open:", err)
+  }
 }
 
 const stopping_criteria = new InterruptableEOSStoppingCriteria([])
@@ -148,7 +157,7 @@ const generate = async (
 const generateText = async (tokenizer, model, messages: Message[], modelConfig: LLMModelConfig) => {
   const inputs = tokenizer.apply_chat_template(messages, {
     add_generation_prompt: true,
-    return_dict: true
+    return_dict: true,
   })
 
   // Reasoning support
@@ -346,7 +355,7 @@ const generateWithVision = async (model, processor, messages: Message[], modelCo
   })
 
   const text = processor.apply_chat_template(conversation, {
-    add_generation_prompt: true
+    add_generation_prompt: true,
   })
 
   // Load images
@@ -445,7 +454,7 @@ const generateTextWithProcessor = async (model, processor, messages: Message[], 
   }))
 
   const text = processor.apply_chat_template(conversation, {
-    add_generation_prompt: true
+    add_generation_prompt: true,
   })
 
   const inputs = await processor(text)
@@ -676,7 +685,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const messages: Message[] = [
     { role: "user", content: `${action}: ${info.selectionText}` }
   ]
-  await chrome.sidePanel.open({ windowId: tab.windowId })
+  // Open side panel (Chrome) or sidebar (Firefox)
+  if (chrome.sidePanel?.open) {
+    await chrome.sidePanel.open({ windowId: tab.windowId })
+  } else if (typeof browser !== "undefined" && browser.sidebarAction?.open) {
+    await browser.sidebarAction.open()
+  }
   await new Promise((resolve) => setTimeout(resolve, 500))
   sendToSidePanel({
     status: "append",
@@ -685,7 +699,18 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     }
   })
   const modelConfig = (await getModelConfig()) as LLMModelConfig
-  const result = await generate(modelConfig, messages)
+  let result
+  try {
+    result = await generate(modelConfig, messages)
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e)
+    console.error("[generate] context menu error:", msg)
+    sendToSidePanel({
+      status: "error",
+      data: { message: msg.includes("Not enough memory") ? "Not enough GPU memory to run this model. Try a smaller model." : msg }
+    })
+    return
+  }
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
@@ -703,12 +728,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const modelConfig = await getModelConfig()
       let result = null
 
-      if (modelConfig.task === "llm") {
-        result = await generate(modelConfig as LLMModelConfig, message.messages)
-      } else if (modelConfig.task == "speech-to-text") {
-        result = await transcribe(modelConfig as STTModelConfig, message.messages)
-      } else {
-        sendResponse({ error: "Unsupported task" })
+      try {
+        if (modelConfig.task === "llm") {
+          result = await generate(modelConfig as LLMModelConfig, message.messages)
+        } else if (modelConfig.task == "speech-to-text") {
+          result = await transcribe(modelConfig as STTModelConfig, message.messages)
+        } else {
+          sendResponse({ error: "Unsupported task" })
+          return
+        }
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e)
+        console.error("[generate] error:", msg)
+        const userMsg = msg.includes("Not enough memory") ? "Not enough GPU memory to run this model. Try a smaller model." : msg
+        sendToSidePanel({ status: "error", data: { message: userMsg } })
+        sendResponse({ error: userMsg })
+        return
       }
 
       if (result) {

@@ -9,6 +9,8 @@ import {
 
 import type { LLMModelConfig } from "~/src/types"
 
+import { ModelRegistry } from "~/genai/model-registry"
+
 // Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false
 
@@ -20,6 +22,43 @@ env.backends.onnx.wasm.numThreads = 1
 env.backends.onnx.wasm.wasmPaths = undefined
 
 env.backends.onnx.wasm.proxy = false
+
+/** Strip f16 from dtype values (q4f16 → q4, fp16 → fp32) */
+const stripF16 = (d: string) =>
+  d === "q4f16" ? "q4" : d === "fp16" ? "fp32" : d
+
+const stripF16Dtype = (dtype: LLMModelConfig["dtype"]): LLMModelConfig["dtype"] =>
+  typeof dtype === "string"
+    ? stripF16(dtype)
+    : Object.fromEntries(
+        Object.entries(dtype).map(([k, v]) => [k, stripF16(v as string)])
+      ) as LLMModelConfig["dtype"]
+
+/** Replace "webgpu" → "wasm" in device */
+const toWasmDevice = (device: LLMModelConfig["device"]): LLMModelConfig["device"] =>
+  typeof device === "string"
+    ? "wasm"
+    : Object.fromEntries(
+        Object.entries(device).map(([k, v]) => [k, v === "webgpu" ? "wasm" : v])
+      ) as LLMModelConfig["device"]
+
+/**
+ * Resolve device and dtype for the current browser.
+ * - WebGPU + fp16 supported → use as-is
+ * - WebGPU available but no fp16 (e.g. Firefox) → keep WebGPU, strip f16 dtypes
+ * - No WebGPU → fall back to WASM + strip f16 dtypes
+ */
+async function resolveDeviceAndDtype(
+  device: LLMModelConfig["device"],
+  dtype: LLMModelConfig["dtype"]
+): Promise<{ device: LLMModelConfig["device"]; dtype: LLMModelConfig["dtype"] }> {
+  const hasWebGPU = await ModelRegistry.webgpuAvailable()
+  const hasFp16 = await ModelRegistry.fp16Supported()
+
+  if (hasWebGPU && hasFp16) return { device, dtype }
+  if (hasWebGPU) return { device, dtype: stripF16Dtype(dtype) }
+  return { device: toWasmDevice(device), dtype: stripF16Dtype(dtype) }
+}
 
 class LLMPipeline {
   static model = null
@@ -42,6 +81,11 @@ class LLMPipeline {
     const originalConsoleError = self.console.error
     self.console.error = () => {}
 
+    const { device, dtype } = await resolveDeviceAndDtype(
+      modelConfig.device,
+      modelConfig.dtype
+    )
+
     if (modelConfig.auto_model === "multimodality") {
       // Janus-style: AutoProcessor + MultiModalityCausalLM
       this.processor ??= AutoProcessor.from_pretrained(modelConfig.model_id, {
@@ -50,8 +94,8 @@ class LLMPipeline {
       this.model ??= MultiModalityCausalLM.from_pretrained(
         modelConfig.model_id,
         {
-          dtype: modelConfig.dtype,
-          device: modelConfig.device,
+          dtype,
+          device,
           progress_callback
         }
       )
@@ -71,8 +115,8 @@ class LLMPipeline {
       this.model ??= AutoModelForImageTextToText.from_pretrained(
         modelConfig.model_id,
         {
-          dtype: modelConfig.dtype,
-          device: modelConfig.device,
+          dtype,
+          device,
           use_external_data_format: modelConfig.use_external_data_format,
           progress_callback
         }
@@ -91,8 +135,8 @@ class LLMPipeline {
     })
 
     this.model ??= AutoModelForCausalLM.from_pretrained(modelConfig.model_id, {
-      dtype: modelConfig.dtype,
-      device: modelConfig.device,
+      dtype,
+      device,
       use_external_data_format: modelConfig.use_external_data_format,
       progress_callback
     })

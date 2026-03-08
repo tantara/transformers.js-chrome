@@ -1,16 +1,27 @@
 // Smoke test: load the background bundle in a minimal browser-like environment
 // to catch "Cannot find module" errors without a real browser.
 
-// Provide minimal globals that Chrome extension service workers have
+// Detect target from the build path to provide appropriate globals
+const isFirefox = (process.argv[2] || "").includes("firefox");
+
+// Provide minimal globals that browser extension service workers have
 globalThis.chrome = {
   runtime: { sendMessage: () => Promise.resolve(), onMessage: { addListener: () => {} }, onInstalled: { addListener: () => {} } },
-  sidePanel: { setPanelBehavior: () => Promise.resolve(), open: () => Promise.resolve() },
+  sidePanel: isFirefox ? undefined : { setPanelBehavior: () => Promise.resolve(), open: () => Promise.resolve() },
   contextMenus: { create: () => {}, onClicked: { addListener: () => {} } },
   scripting: { executeScript: () => Promise.resolve() },
   storage: { local: { get: () => Promise.resolve({}), set: () => Promise.resolve() } },
 };
+// Firefox also exposes the browser.* namespace with sidebar support
+if (isFirefox) {
+  globalThis.browser = {
+    ...globalThis.chrome,
+    sidebarAction: { open: () => Promise.resolve(), setPanel: () => Promise.resolve() },
+  };
+}
 globalThis.self = globalThis;
-globalThis.location = { href: "chrome-extension://fake/static/background/index.js" };
+const scheme = isFirefox ? "moz-extension" : "chrome-extension";
+globalThis.location = { href: `${scheme}://fake/static/background/index.js` };
 try { Object.defineProperty(globalThis, "navigator", { value: { userAgent: "Mozilla/5.0", hardwareConcurrency: 4 }, configurable: true }); } catch {}
 globalThis.performance = { now: () => Date.now() };
 globalThis.addEventListener = () => {};

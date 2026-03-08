@@ -76,9 +76,45 @@ const sed = () => {
       fs.copyFileSync(`${fontsSrc}/${file}`, `${fontsDst}/${file}`)
     }
 
-    // console.log(
-    //   `Successfully replaced "${srcString}" with "${dstString}" in ${sedFile}`,
-    // );
+    // Patch Firefox manifest: add sidebar_action and clean up Chrome-only entries
+    const target = process.env.PLASMO_TARGET || ""
+    if (target.startsWith("firefox")) {
+      const manifestPath = `${targetDir}/manifest.json`
+      try {
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"))
+
+        // Firefox requires an explicit addon ID for the storage API to work
+        // with temporary add-ons (about:debugging → Load Temporary Add-on)
+        manifest.browser_specific_settings = {
+          gecko: {
+            id: "private-ai-assistant@tinywhale.com",
+            strict_min_version: "109.0"
+          }
+        }
+
+        // Add sidebar_action so the sidepanel page opens in Firefox's sidebar
+        manifest.sidebar_action = {
+          default_panel: "sidepanel.html",
+          default_title: manifest.name || "Private AI Assistant",
+          default_icon: manifest.icons
+        }
+
+        // Remove Chrome-only sidePanel permission (Firefox ignores it, but keep manifest clean)
+        if (manifest.permissions) {
+          manifest.permissions = manifest.permissions.filter(p => p !== "sidePanel")
+        }
+
+        // Firefox MV2 requires explicit host permissions for cross-origin fetch
+        // (needed to download models from Hugging Face)
+        if (!manifest.permissions.includes("<all_urls>")) {
+          manifest.permissions.push("<all_urls>")
+        }
+
+        fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), "utf8")
+      } catch (e) {
+        console.error("Warning: could not patch Firefox manifest:", e.message)
+      }
+    }
   } catch (error) {
     console.error(`Error processing file ${sedFile}:`, error)
   }

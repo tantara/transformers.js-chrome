@@ -14,6 +14,16 @@
       "cache": false,
       "persistent": false
     },
+    "dev:chrome": {
+      "dependsOn": ["^dev"],
+      "cache": false,
+      "persistent": false
+    },
+    "dev:firefox": {
+      "dependsOn": ["^dev"],
+      "cache": false,
+      "persistent": false
+    },
     "format": {
       "outputs": [".cache/.prettiercache"],
       "outputLogs": "new-only"

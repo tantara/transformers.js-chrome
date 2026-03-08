@@ -112,18 +112,54 @@ Open [http://localhost:3000](http://localhost:3000) and navigate to `/chat`.
 ### Chrome Extension
 
 ```bash
-pnpm dev:plasmo
+pnpm dev:chrome
 ```
 
 Open `chrome://extensions`, enable Developer mode, click "Load unpacked", and select `apps/plasmo/build/chrome-mv3-dev`.
 
 Or install from the [Chrome Web Store](https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp).
 
+### Firefox Extension
+
+```bash
+pnpm dev:firefox
+```
+
+Navigate to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", and select any file inside `apps/plasmo/build/firefox-mv2-dev`.
+
+> **Known issues:**
+> - Firefox WebGPU has limited GPU memory. Use the smallest models (e.g. Qwen2.5-0.5B) to avoid "Not enough memory" errors. Models 0.8B+ (including Qwen3.5-0.8B) may fail.
+> - `q4f16` dtype is not supported without `shader-f16` — the extension automatically falls back to `q4`.
+> - HMR (hot module reload) websocket does not connect in Firefox extensions. Code changes require manually reloading the extension.
+
+### Safari Extension (macOS)
+
+```bash
+cd apps/plasmo
+pnpm build:safari
+```
+
+This builds the Chrome MV3 production bundle, then converts it to a Safari Web Extension Xcode project at `build/safari/`. Open the Xcode project, build and run, then enable the extension in Safari > Settings > Extensions.
+
+**Prerequisites:** Xcode 14+ with `safari-web-extension-converter` (included with Xcode command line tools).
+
+> **Known issues:**
+> - Safari does not support `sidePanel` — the conversion script strips it from the manifest.
+> - WebGPU support in Safari is experimental and may vary by macOS version.
+
 ### All Apps
 
 ```bash
 pnpm dev
 ```
+
+### Both Chrome + Firefox
+
+```bash
+pnpm dev:plasmo
+```
+
+Runs both dev servers in parallel via Turborepo TUI.
 
 ## Deployment
 
@@ -136,17 +172,50 @@ pnpm build && pnpm package
 
 Creates a production bundle ready for the Chrome Web Store. See [Plasmo's submission guide](https://docs.plasmo.com/framework/workflows/submit) for automated deployment via GitHub Actions.
 
+### Firefox Extension
+
+```bash
+cd apps/plasmo
+pnpm build:firefox && pnpm package:firefox
+```
+
+Creates a zip ready for [Firefox Add-ons](https://addons.mozilla.org/).
+
+### Safari Extension
+
+```bash
+cd apps/plasmo
+pnpm build:safari
+```
+
+Produces an Xcode project at `build/safari/`. Archive and distribute via Xcode.
+
 ### Next.js (Vercel)
 
 Deploy to [Vercel](https://vercel.com) with `apps/nextjs` as the root directory.
 
+## Testing
+
+```bash
+cd apps/plasmo
+pnpm test:background   # Smoke test Chrome prod build for missing modules
+pnpm test:firefox      # Smoke test Firefox prod build for missing modules
+pnpm test:safari       # Verify Safari prerequisites + smoke test Chrome build
+```
+
+Run `pnpm test:background` after any change to aliases, stubs, postinstall, postbuild, or dependencies.
+
 ## Debugging
 
-### Service Worker
+### Chrome
 
 Open `chrome://extensions` and find "Inspect views" for the extension.
 
 ![Inspect views](./docs/inspect-views.jpg)
+
+### Firefox
+
+Navigate to `about:debugging#/runtime/this-firefox` and click "Inspect" on the extension to open the background script console.
 
 ### Memory Usage
 

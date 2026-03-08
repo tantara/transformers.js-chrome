@@ -6,11 +6,18 @@
   "author": "Taekmin Kim <tantara.tm@gmail.com>",
   "scripts": {
     "dev": "pnpm with-env plasmo dev",
+    "dev:chrome": "pnpm with-env plasmo dev",
+    "dev:firefox": "pnpm with-env plasmo dev --target=firefox-mv2 --serve-port=6253 --hmr-port=1816",
     "build": "pnpm with-env plasmo build",
+    "build:firefox": "pnpm with-env plasmo build --target=firefox-mv2",
+    "build:safari": "pnpm build && bash scripts/convert-safari.sh",
     "package": "pnpm with-env plasmo package",
+    "package:firefox": "pnpm with-env plasmo package --target=firefox-mv2",
     "with-env": "dotenv -e .env --",
     "postinstall": "bash postinstall/run.sh",
     "test:background": "node test/background.mjs",
+    "test:firefox": "node test/background.mjs build/firefox-mv2-prod/static/background/index.js",
+    "test:safari": "node test/safari.mjs",
     "test:inference": "node test/inference.mjs"
   },
   "dependencies": {

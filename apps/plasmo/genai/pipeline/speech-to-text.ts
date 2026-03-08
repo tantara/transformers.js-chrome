@@ -7,6 +7,14 @@ import {
 
 import type { STTModelConfig } from "~/src/types"
 
+import { ModelRegistry } from "~/genai/model-registry"
+
+/** Resolve device for current browser — fall back to WASM if no WebGPU */
+async function resolveDevice(device: string): Promise<string> {
+  if (device !== "webgpu") return device
+  return (await ModelRegistry.webgpuAvailable()) ? "webgpu" : "wasm"
+}
+
 class AutomaticSpeechRecognitionPipeline {
   static tokenizer = null
   static processor = null
@@ -23,11 +31,12 @@ class AutomaticSpeechRecognitionPipeline {
       progress_callback
     })
 
+    const device = await resolveDevice(modelConfig.device as string)
     this.model ??= WhisperForConditionalGeneration.from_pretrained(
       modelConfig.model_id,
       {
         dtype: modelConfig.dtype,
-        device: modelConfig.device,
+        device,
         progress_callback
       }
     )
@@ -43,12 +52,13 @@ class AutomaticSpeechRecognitionMergedPipeline {
     modelConfig: STTModelConfig,
     progress_callback = null
   ) {
+    const device = await resolveDevice(modelConfig.device as string)
     this.pipe ??= pipeline(
       "automatic-speech-recognition",
       modelConfig.model_id,
       {
         dtype: modelConfig.dtype,
-        device: modelConfig.device,
+        device,
         progress_callback
       }
     )
