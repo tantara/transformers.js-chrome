@@ -12,6 +12,7 @@ import { TinyWhaleLogo } from "./logo";
 const navLinks = [
   { href: "/#features", label: "Features" },
   { href: "/how-it-works", label: "How It Works" },
+  { href: "/download", label: "Download" },
   { href: "/chat", label: "Chat" },
 ];
 

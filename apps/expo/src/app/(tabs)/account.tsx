@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, Stack } from "expo-router";
+import { Link } from "expo-router";
 import { LegendList } from "@legendapp/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -127,7 +127,7 @@ function MobileAuth() {
   );
 }
 
-export default function Index() {
+export default function AccountScreen() {
   const queryClient = useQueryClient();
 
   const postQuery = useQuery(trpc.post.all.queryOptions());
@@ -140,20 +140,11 @@ export default function Index() {
   );
 
   return (
-    <SafeAreaView className="bg-background">
-      <Stack.Screen options={{ title: "TinyWhale" }} />
+    <SafeAreaView className="bg-background flex-1" edges={["bottom"]}>
       <View className="bg-background h-full w-full p-4">
         <Text className="text-foreground pb-2 text-center text-5xl font-bold">
           Tiny<Text className="text-primary">Whale</Text>
         </Text>
-
-        <Link asChild href="/chat">
-          <Pressable className="mb-4 flex items-center rounded-xl bg-primary p-4">
-            <Text className="text-lg font-semibold text-primary-foreground">
-              AI Chat (On-Device)
-            </Text>
-          </Pressable>
-        </Link>
 
         <MobileAuth />
 

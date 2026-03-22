@@ -33,7 +33,9 @@ export default function RootLayout() {
                   colorScheme === "dark" ? "#0c2535" : "#f0fafe",
               },
             }}
-          />
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
           <StatusBar style="auto" />
         </GestureHandlerRootView>
       </ThemeProvider>

@@ -6,6 +6,8 @@ const footerLinks = {
   Product: [
     { label: "Web Demo", href: "/" },
     { label: "Chrome Extension", href: "https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp?authuser=0&hl=en" },
+    { label: "Mobile App", href: "https://github.com/tantara/transformers.js-chrome" },
+    { label: "Desktop App", href: "https://github.com/tantara/transformers.js-chrome" },
   ],
   Resources: [
     { label: "How It Works", href: "/how-it-works" },
