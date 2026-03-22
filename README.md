@@ -20,12 +20,11 @@ Built with [Transformers.js](https://github.com/huggingface/transformers.js) + [
 
 ## Examples
 
-| Platform | Screenshot |
-| --- | --- |
-| Chrome Extension | ![Chrome Extension](./docs/example-summarize.jpg) |
-| Web | ![Web](./docs/tinywhale-web.png) |
-| Mobile | Coming soon |
-| Desktop | ![Desktop](./docs/tinywhale-tauri.png) |
+| Web | Chrome Extension |
+| :---: | :---: |
+| <img src="./docs/tinywhale-web.png" width="500" /> | <img src="./docs/example-summarize.jpg" width="500" /> |
+| **Mobile (Expo)** | **Desktop (Tauri)** |
+| <img src="./docs/tinywhale-expo.png" width="150" /> | <img src="./docs/tinywhale-tauri.png" width="500" /> |
 
 See more [Chrome Extension examples](./docs/TINYWHALE_CHROME_EXTENSION.md).
 
@@ -50,8 +49,7 @@ See more [Chrome Extension examples](./docs/TINYWHALE_CHROME_EXTENSION.md).
 | --- | --- | --- |
 | Web | Live | Next.js + WebGPU |
 | Chrome Extension | Live | Plasmo + WebGPU |
-| iOS | Planned | Expo / React Native + Core ML |
-| Android | Planned | Expo / React Native + NNAPI |
+| iOS / Android | In Progress | Expo + llama.rn (llama.cpp) |
 | macOS / Windows / Linux | Planned | Tauri or Electron + ONNX Runtime |
 
 ## Performance
@@ -146,6 +144,15 @@ This builds the Chrome MV3 production bundle, then converts it to a Safari Web E
 > **Known issues:**
 > - Safari does not support `sidePanel` — the conversion script strips it from the manifest.
 > - WebGPU support in Safari is experimental and may vary by macOS version.
+
+### Mobile App (Expo)
+
+```bash
+pnpm --filter @acme/expo ios      # Run on iOS device/simulator
+pnpm --filter @acme/expo android  # Run on Android device/emulator
+```
+
+On-device LLM inference using [llama.rn](https://github.com/nicepkg/llama.rn) (llama.cpp). Downloads Qwen3.5-0.8B GGUF from HuggingFace and runs inference locally with Metal GPU acceleration on iOS.
 
 ### All Apps
 

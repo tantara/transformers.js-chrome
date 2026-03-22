@@ -11,12 +11,16 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
 import { initLlama, releaseAllLlama } from "llama.rn";
 import type { LlamaContext, NativeCompletionResult } from "llama.rn";
 
-// TODO: Replace with actual model path
-const MODEL_PATH = "/path/to/your/model.gguf";
+import {
+  DEFAULT_MODEL,
+  downloadModel,
+  formatBytes,
+  isModelDownloaded,
+  getModelPath,
+} from "~/lib/model-downloader";
 
 const SYSTEM_PROMPT =
   "You are a helpful, harmless, and honest AI assistant. Be concise and helpful in your responses.";
@@ -30,29 +34,58 @@ interface Message {
 
 const randId = () => Math.random().toString(36).slice(2, 11);
 
+type Status = "idle" | "downloading" | "loading" | "ready";
+
 export default function ChatScreen() {
   const [context, setContext] = useState<LlamaContext | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [downloadedBytes, setDownloadedBytes] = useState("");
   const [loadProgress, setLoadProgress] = useState(0);
+  const [modelDownloaded, setModelDownloaded] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
+    isModelDownloaded(DEFAULT_MODEL.filename).then(setModelDownloaded);
     return () => {
       releaseAllLlama();
     };
   }, []);
 
-  const loadModel = useCallback(async () => {
+  const handleDownloadAndLoad = useCallback(async () => {
     try {
-      setIsLoading(true);
+      const existingPath = await getModelPath(DEFAULT_MODEL.filename);
+      let modelPath: string;
+
+      if (existingPath) {
+        modelPath = existingPath;
+      } else {
+        setStatus("downloading");
+        setDownloadProgress(0);
+        setDownloadedBytes("");
+
+        modelPath = await downloadModel(
+          DEFAULT_MODEL.repo,
+          DEFAULT_MODEL.filename,
+          (progress) => {
+            setDownloadProgress(progress.percentage);
+            setDownloadedBytes(
+              `${formatBytes(progress.written)} / ${formatBytes(progress.total)}`,
+            );
+          },
+        );
+        setModelDownloaded(true);
+      }
+
+      setStatus("loading");
       setLoadProgress(0);
 
       const ctx = await initLlama(
         {
-          model: MODEL_PATH,
+          model: modelPath,
           n_ctx: 2048,
           n_gpu_layers: Platform.OS === "ios" ? 99 : 0,
         },
@@ -62,20 +95,19 @@ export default function ChatScreen() {
       );
 
       setContext(ctx);
+      setStatus("ready");
       setMessages([
         {
           id: randId(),
           role: "assistant",
-          content: "Model loaded! How can I help you?",
+          content: `Ready: ${DEFAULT_MODEL.name}. How can I help you?`,
         },
       ]);
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Unknown error occurred";
-      Alert.alert("Error", `Failed to load model: ${message}`);
-    } finally {
-      setIsLoading(false);
-      setLoadProgress(0);
+      Alert.alert("Error", message);
+      setStatus("idle");
     }
   }, []);
 
@@ -114,7 +146,13 @@ export default function ChatScreen() {
           n_predict: 512,
           temperature: 0.7,
           top_p: 0.9,
-          stop: ["<|end|>", "<|eot_id|>", "</s>"],
+          stop: [
+            "<|end|>",
+            "<|eot_id|>",
+            "<|im_end|>",
+            "<|endoftext|>",
+            "</s>",
+          ],
         },
         (data) => {
           const { content = "" } = data;
@@ -181,58 +219,64 @@ export default function ChatScreen() {
     );
   };
 
-  if (!context) {
+  if (status !== "ready") {
     return (
-      <SafeAreaView className="bg-background flex-1">
-        <Stack.Screen options={{ title: "Chat" }} />
-        <View className="flex-1 items-center justify-center px-6">
-          <Text className="mb-2 text-center text-2xl font-bold text-foreground">
-            On-Device AI Chat
-          </Text>
-          <Text className="mb-8 text-center text-muted-foreground">
-            Run LLMs locally using llama.rn
-          </Text>
+      <View className="bg-background flex-1 items-center justify-center px-6">
+        <Text className="mb-2 text-center text-4xl font-bold text-foreground">
+          Tiny<Text className="text-primary">Whale</Text>
+        </Text>
+        <Text className="mb-4 text-center text-base text-foreground">
+          AI that runs on your device. No cloud required.
+        </Text>
+        <Text className="mb-8 text-center text-sm text-muted-foreground">
+          {DEFAULT_MODEL.name} ({DEFAULT_MODEL.size})
+        </Text>
 
-          {isLoading ? (
-            <View className="items-center">
-              <ActivityIndicator size="large" />
-              <Text className="mt-4 text-foreground">
-                Loading model... {loadProgress}%
-              </Text>
+        {status === "downloading" ? (
+          <View className="w-full items-center px-4">
+            <Text className="mb-2 text-foreground">
+              Downloading model... {downloadProgress}%
+            </Text>
+            <View className="h-3 w-full overflow-hidden rounded-full bg-muted">
+              <View
+                className="h-full rounded-full bg-primary"
+                style={{ width: `${downloadProgress}%` }}
+              />
             </View>
-          ) : (
-            <>
-              <Pressable
-                className="rounded-xl bg-primary px-8 py-4"
-                onPress={loadModel}
-              >
-                <Text className="text-lg font-semibold text-primary-foreground">
-                  Load Model
-                </Text>
-              </Pressable>
-              <Text className="mt-4 text-center text-xs text-muted-foreground">
-                Model path: {MODEL_PATH}
+            <Text className="mt-2 text-xs text-muted-foreground">
+              {downloadedBytes}
+            </Text>
+          </View>
+        ) : status === "loading" ? (
+          <View className="items-center">
+            <ActivityIndicator size="large" />
+            <Text className="mt-4 text-foreground">
+              Loading model... {loadProgress}%
+            </Text>
+          </View>
+        ) : (
+          <>
+            <Pressable
+              className="rounded-xl bg-primary px-8 py-4"
+              onPress={handleDownloadAndLoad}
+            >
+              <Text className="text-lg font-semibold text-primary-foreground">
+                {modelDownloaded ? "Load Model" : "Download & Load"}
               </Text>
-            </>
-          )}
-        </View>
-      </SafeAreaView>
+            </Pressable>
+            <Text className="mt-4 text-center text-xs text-muted-foreground">
+              {modelDownloaded
+                ? "Model ready on device"
+                : "Everything runs locally on your device"}
+            </Text>
+          </>
+        )}
+      </View>
     );
   }
 
   return (
     <SafeAreaView className="bg-background flex-1" edges={["bottom"]}>
-      <Stack.Screen
-        options={{
-          title: "Chat",
-          headerRight: () =>
-            isGenerating ? (
-              <Pressable onPress={stopGeneration} className="mr-2">
-                <Text className="font-semibold text-destructive">Stop</Text>
-              </Pressable>
-            ) : null,
-        }}
-      />
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
