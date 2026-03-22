@@ -1,6 +1,7 @@
 import { Navbar } from "../navbar";
 import { Footer } from "../footer";
 import { HeroSection } from "./hero-section";
+import { PlatformSection } from "./platform-section";
 import { FeatureSection } from "./feature-section";
 import { StatsSection } from "./stats-section";
 import { CtaSection } from "./cta-section";
@@ -11,27 +12,30 @@ export function LandingPage() {
       <Navbar />
       <HeroSection />
 
+      {/* Platforms */}
+      <PlatformSection />
+
       {/* Section 1: muted bg */}
       <div id="features">
         <FeatureSection
           badge="Private by Design"
-          headline="Your conversations never leave your device."
-          description="All AI inference runs locally on your GPU via WebGPU. There's no server, no API calls, no telemetry. Once the model is loaded, it even works offline."
+          headline="Your data never leaves your device."
+          description="All AI inference runs locally — in the browser via WebGPU, on your phone via Metal, or on your desktop via llama.cpp. No servers, no API calls, no telemetry."
           features={[
             {
               title: "100% Local Inference",
               description:
-                "The model runs entirely in your browser tab. No data is transmitted anywhere.",
+                "Models run entirely on your device. No data is transmitted anywhere.",
             },
             {
               title: "Cached for Speed",
               description:
-                "Model files are cached in your browser. Subsequent visits load in seconds.",
+                "Model files are cached locally. Subsequent launches load in seconds.",
             },
             {
               title: "Works Offline",
               description:
-                "Once loaded, chat works without any internet connection.",
+                "Once the model is downloaded, everything works without internet.",
             },
           ]}
           stat={{ value: "0 bytes", label: "sent to any server" }}
@@ -46,7 +50,7 @@ export function LandingPage() {
       <FeatureSection
         badge="Vision + Text"
         headline="Understand images and text together."
-        description="Our models support multimodal input. Upload an image and ask questions about it — all processed locally on your device."
+        description="Multimodal models process images and text locally on your device. Upload a photo and ask questions — no cloud needed."
         features={[
           {
             title: "Image Understanding",
@@ -74,7 +78,7 @@ export function LandingPage() {
       <FeatureSection
         badge="Full Control"
         headline="Tune the model to your needs."
-        description="Adjust temperature, top-p, top-k, repetition penalty, and more. Like having a local AI playground with fine-grained control over generation behavior."
+        description="Adjust temperature, top-p, top-k, repetition penalty, and more. A local AI playground with fine-grained control over generation behavior."
         features={[
           {
             title: "Generation Settings",

@@ -22,12 +22,15 @@ export function CtaSection() {
           Ready to dive in?
         </h2>
         <p className="mb-8 text-base text-white/60 sm:mb-10 sm:text-lg">
-          No sign-up required. No data collected. Load the model and start
-          chatting — it&apos;s that simple.
+          No sign-up required. No data collected. Pick your platform,
+          load a model, and start chatting.
         </p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button size="lg" className="bg-ocean-light text-ocean-abyss hover:bg-ocean-light/90 dark:bg-ocean-deep dark:text-ocean-abyss dark:hover:bg-ocean-deep/90" asChild>
-            <Link href="/chat">Try the Demo</Link>
+            <Link href="/download">Get TinyWhale</Link>
+          </Button>
+          <Button size="lg" className="border border-white/20 bg-transparent text-white hover:bg-white/10" asChild>
+            <Link href="/chat">Try Web Demo</Link>
           </Button>
           <Button size="lg" className="border border-white/20 bg-transparent text-white hover:bg-white/10" asChild>
             <a

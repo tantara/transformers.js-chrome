@@ -20,13 +20,13 @@ export function HeroSection() {
         </div>
 
         <h1 className="mx-auto mb-6 max-w-4xl text-center text-3xl font-bold leading-[1.1] tracking-tight text-ocean-text sm:mb-8 sm:text-4xl md:text-5xl lg:text-6xl">
-          AI that runs in your browser.{" "}
-          <span className="text-ocean-deep">No cloud required.</span>
+          On-device AI for{" "}
+          <span className="text-ocean-deep">every platform.</span>
         </h1>
 
         <p className="mx-auto mb-8 max-w-2xl text-center text-base text-ocean-text-muted sm:mb-10 sm:text-lg md:text-xl">
-          Chat with open source LLMs powered by WebGPU. Everything runs in your browser
-          — your data never leaves your machine. Free, private, and fast.
+          Run open-source LLMs on your browser, phone, and desktop — no cloud required.
+          Your data never leaves your device. Free, private, and fast.
         </p>
 
         <div className="mx-auto mt-8 aspect-video max-w-4xl overflow-hidden rounded-lg border border-ocean-mid/30 bg-white/50 shadow-lg backdrop-blur-sm sm:mt-12 dark:bg-black/30">
@@ -47,20 +47,14 @@ export function HeroSection() {
             className="bg-ocean-deep text-white hover:bg-ocean-deep/90 dark:text-ocean-abyss"
             asChild
           >
-            <Link href="/chat">Web Demo</Link>
+            <Link href="/download">Get TinyWhale</Link>
           </Button>
           <Button
             size="lg"
             className="border border-ocean-mid/30 bg-white/80 text-ocean-text hover:bg-white dark:border-white/20 dark:bg-black/40 dark:text-white"
             asChild
           >
-            <a
-              href="https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Chrome Extension
-            </a>
+            <Link href="/chat">Try Web Demo</Link>
           </Button>
           <Button
             size="lg"

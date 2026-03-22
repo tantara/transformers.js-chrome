@@ -1,5 +1,5 @@
 const stats = [
-  { value: "0.8B", label: "Model Parameters" },
+  { value: "4", label: "Platforms Supported" },
   { value: "~40", label: "Tokens per Second" },
   { value: "0", label: "Data Sent to Servers" },
   { value: "100%", label: "Local & Private" },
