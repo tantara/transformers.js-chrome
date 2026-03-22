@@ -13,7 +13,7 @@ import "~/app/styles.css";
 
 const siteUrl =
   env.VERCEL_ENV === "production"
-    ? "https://tiny-whale.vercel.app"
+    ? "https://tinywhale.dev"
     : "http://localhost:3000";
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 # TinyWhale
 
-**Open source monorepo for on-device AI inference** — run LLMs directly in the browser as a [web app](https://tiny-whale.vercel.app) or [Chrome extension](https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp). No servers, no API keys, no data leaves your device.
+**Open source monorepo for on-device AI inference** — run LLMs directly in the browser as a [web app](https://tinywhale.dev) or [Chrome extension](https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp). No servers, no API keys, no data leaves your device.
 
 Built with [Transformers.js](https://github.com/huggingface/transformers.js) + [ONNX Runtime Web](https://onnxruntime.ai/) + [WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API), structured as a **Turborepo monorepo** with shared packages for UI, auth, and API — so the same inference pipeline powers both the web app and the Chrome extension.
 
@@ -8,7 +8,7 @@ Built with [Transformers.js](https://github.com/huggingface/transformers.js) + [
 
 ## Try It
 
-- **Web Demo** — [tiny-whale.vercel.app](https://tiny-whale.vercel.app)
+- **Web Demo** — [tinywhale.dev](https://tinywhale.dev)
 - **Chrome Extension** — [Chrome Web Store](https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp)
 - **Demo Videos** — [Intro](https://www.youtube.com/watch?v=yXZQ8FHtSes) | [Advanced Usage](https://www.youtube.com/watch?v=MSCDdFG5Lls)
 
@@ -20,14 +20,14 @@ Built with [Transformers.js](https://github.com/huggingface/transformers.js) + [
 
 ## Examples
 
-| Task                | Example                                                          |
-| ------------------- | ---------------------------------------------------------------- |
-| Text Summarization  | ![Example Text Summarization](./docs/example-summarize.jpg)      |
-| Code Generation     | ![Example Code Generation](./docs/example-write-code.jpg)        |
-| Image Understanding | ![Example Multi Modal LLM](./docs/example-image-caption.jpg)     |
-| Image Generation    | ![Example Image Generation](./docs/example-image-generation.jpg) |
-| Speech to Text      | ![Example Speech to Text](./docs/example-speech-to-text.jpg)     |
-| Reasoning           | ![Example Reasoning](./docs/example-reasoning.jpg)               |
+| Platform | Screenshot |
+| --- | --- |
+| Chrome Extension | ![Chrome Extension](./docs/example-summarize.jpg) |
+| Web | ![Web](./docs/tinywhale-web.png) |
+| Mobile | Coming soon |
+| Desktop | ![Desktop](./docs/tinywhale-tauri.png) |
+
+See more [Chrome Extension examples](./docs/TINYWHALE_CHROME_EXTENSION.md).
 
 ## Features
 

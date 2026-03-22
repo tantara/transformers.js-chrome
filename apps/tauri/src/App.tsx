@@ -63,7 +63,7 @@ const DEFAULT_SYSTEM_PROMPT =
 const DEFAULT_MODEL_URL = "https://huggingface.co/unsloth/Qwen3.5-0.8B-GGUF";
 const STORAGE_KEY = "tinywhale.models.v1";
 const THINK_BLOCK_PATTERN = /<think>([\s\S]*?)<\/think>/gi;
-const WEBSITE_URL = "https://tiny-whale.vercel.app";
+const WEBSITE_URL = "https://tinywhale.dev";
 const CHROME_EXTENSION_URL =
   "https://chromewebstore.google.com/detail/private-ai-assistant-runn/jojlpeliekadmokfnikappfadbjiaghp";
 
