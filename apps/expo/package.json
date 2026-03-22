@@ -16,11 +16,16 @@
   "dependencies": {
     "@better-auth/expo": "catalog:",
     "@legendapp/list": "^2.0.14",
+    "@react-navigation/native": "^7.1.33",
+    "@rn-primitives/portal": "~1.3.0",
+    "@rn-primitives/slot": "^1.2.0",
     "@tanstack/react-query": "catalog:",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
     "better-auth": "catalog:",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "expo": "~54.0.20",
     "expo-constants": "~18.0.10",
     "expo-dev-client": "~6.0.16",
@@ -31,6 +36,8 @@
     "expo-status-bar": "~3.0.8",
     "expo-system-ui": "~6.0.8",
     "expo-web-browser": "~15.0.8",
+    "llama.rn": "file:../../llama.rn",
+    "lucide-react-native": "^0.545.0",
     "nativewind": "5.0.0-preview.2",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
@@ -40,8 +47,10 @@
     "react-native-reanimated": "~4.1.3",
     "react-native-safe-area-context": "~5.6.1",
     "react-native-screens": "~4.16.0",
+    "react-native-svg": "~15.12.1",
     "react-native-worklets": "~0.5.1",
-    "superjson": "2.2.3"
+    "superjson": "2.2.3",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@acme/api": "workspace:*",

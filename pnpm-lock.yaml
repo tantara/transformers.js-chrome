@@ -119,6 +119,15 @@ importers:
       '@legendapp/list':
         specifier: ^2.0.14
         version: 2.0.14(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
+      '@react-navigation/native':
+        specifier: ^7.1.33
+        version: 7.1.33(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
+      '@rn-primitives/portal':
+        specifier: ~1.3.0
+        version: 1.3.0(@types/react@19.1.12)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)(use-sync-external-store@1.6.0(react@19.1.4))
+      '@rn-primitives/slot':
+        specifier: ^1.2.0
+        version: 1.2.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.90.8(react@19.1.4)
@@ -134,6 +143,12 @@ importers:
       better-auth:
         specifier: 'catalog:'
         version: 1.4.0-beta.9(better-sqlite3@12.2.0)(next@16.0.10(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(sass@1.97.3))(react-dom@19.1.4(react@19.1.4))(react@19.1.4)(svelte@4.2.2)(vue@3.3.4)
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       expo:
         specifier: ~54.0.20
         version: 54.0.20(@babel/core@7.28.5)(@expo/metro-runtime@6.1.1)(bufferutil@4.0.8)(expo-router@6.0.13)(graphql@15.8.0)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
@@ -164,6 +179,12 @@ importers:
       expo-web-browser:
         specifier: ~15.0.8
         version: 15.0.8(expo@54.0.20)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))
+      llama.rn:
+        specifier: file:../../llama.rn
+        version: file:llama.rn(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
+      lucide-react-native:
+        specifier: ^0.545.0
+        version: 0.545.0(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
       nativewind:
         specifier: 5.0.0-preview.2
         version: 5.0.0-preview.2(react-native-css@3.0.1(@expo/metro-config@54.0.7(bufferutil@4.0.8)(expo@54.0.20))(lightningcss@1.30.2)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4))(tailwindcss@4.1.16)
@@ -191,12 +212,18 @@ importers:
       react-native-screens:
         specifier: ~4.16.0
         version: 4.16.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
+      react-native-svg:
+        specifier: ~15.12.1
+        version: 15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
       react-native-worklets:
         specifier: ~0.5.1
         version: 0.5.1(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
       superjson:
         specifier: 2.2.3
         version: 2.2.3
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.5.0
     devDependencies:
       '@acme/api':
         specifier: workspace:*
@@ -570,6 +597,46 @@ importers:
       vite-tsconfig-paths:
         specifier: ^5.1.4
         version: 5.1.4(typescript@5.9.3)(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+
+  apps/tauri:
+    dependencies:
+      '@tauri-apps/api':
+        specifier: ^2
+        version: 2.10.1
+      '@tauri-apps/plugin-opener':
+        specifier: ^2
+        version: 2.5.3
+      react:
+        specifier: catalog:react19
+        version: 19.1.4
+      react-dom:
+        specifier: catalog:react19
+        version: 19.1.4(react@19.1.4)
+      react-markdown:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/react@19.1.12)(react@19.1.4)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+    devDependencies:
+      '@tauri-apps/cli':
+        specifier: ^2
+        version: 2.10.1
+      '@types/react':
+        specifier: catalog:react19
+        version: 19.1.12
+      '@types/react-dom':
+        specifier: catalog:react19
+        version: 19.1.9(@types/react@19.1.12)
+      '@vitejs/plugin-react':
+        specifier: 'catalog:'
+        version: 5.1.0(vite@7.1.12(@types/node@25.3.5)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vite:
+        specifier: 7.1.12
+        version: 7.1.12(@types/node@25.3.5)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/api:
     dependencies:
@@ -4734,6 +4801,30 @@ packages:
   '@react-navigation/routers@7.5.3':
     resolution: {integrity: sha512-1tJHg4KKRJuQ1/EvJxatrMef3NZXEPzwUIUZ3n1yJ2t7Q97siwRtbynRpQG9/69ebbtiZ8W3ScOZF/OmhvM4Rg==}
 
+  '@rn-primitives/portal@1.3.0':
+    resolution: {integrity: sha512-a2DSce7TcSfcs0cCngLadAJOvx/+mdH9NRu+GxkX8NPRsGGhJvDEOqouMgDqLwx7z9mjXoUaZcwaVcemUSW9/A==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
+  '@rn-primitives/slot@1.2.0':
+    resolution: {integrity: sha512-cpbn+JLjSeq3wcA4uqgFsUimMrWYWx2Ks7r5rkwd1ds1utxynsGkLOKpYVQkATwWrYhtcoF1raxIKEqXuMN+/w==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native:
+        optional: true
+      react-native-web:
+        optional: true
+
   '@rolldown/pluginutils@1.0.0-beta.40':
     resolution: {integrity: sha512-s3GeJKSQOwBlzdUrj4ISjJj5SfSh+aqn0wjOar4Bx95iV1ETI7F6S/5hLcfAxZ9kXDcyrAkxPlqmd1ZITttf+w==}
 
@@ -5412,6 +5503,83 @@ packages:
   '@tanstack/virtual-file-routes@1.133.19':
     resolution: {integrity: sha512-IKwZENsK7owmW1Lm5FhuHegY/SyQ8KqtL/7mTSnzoKJgfzhrrf9qwKB1rmkKkt+svUuy/Zw3uVEpZtUzQruWtA==}
     engines: {node: '>=12'}
+
+  '@tauri-apps/api@2.10.1':
+    resolution: {integrity: sha512-hKL/jWf293UDSUN09rR69hrToyIXBb8CjGaWC7gfinvnQrBVvnLr08FeFi38gxtugAVyVcTa5/FD/Xnkb1siBw==}
+
+  '@tauri-apps/cli-darwin-arm64@2.10.1':
+    resolution: {integrity: sha512-Z2OjCXiZ+fbYZy7PmP3WRnOpM9+Fy+oonKDEmUE6MwN4IGaYqgceTjwHucc/kEEYZos5GICve35f7ZiizgqEnQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@tauri-apps/cli-darwin-x64@2.10.1':
+    resolution: {integrity: sha512-V/irQVvjPMGOTQqNj55PnQPVuH4VJP8vZCN7ajnj+ZS8Kom1tEM2hR3qbbIRoS3dBKs5mbG8yg1WC+97dq17Pw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@tauri-apps/cli-linux-arm-gnueabihf@2.10.1':
+    resolution: {integrity: sha512-Hyzwsb4VnCWKGfTw+wSt15Z2pLw2f0JdFBfq2vHBOBhvg7oi6uhKiF87hmbXOBXUZaGkyRDkCHsdzJcIfoJC2w==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-arm64-gnu@2.10.1':
+    resolution: {integrity: sha512-OyOYs2t5GkBIvyWjA1+h4CZxTcdz1OZPCWAPz5DYEfB0cnWHERTnQ/SLayQzncrT0kwRoSfSz9KxenkyJoTelA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-arm64-musl@2.10.1':
+    resolution: {integrity: sha512-MIj78PDDGjkg3NqGptDOGgfXks7SYJwhiMh8SBoZS+vfdz7yP5jN18bNaLnDhsVIPARcAhE1TlsZe/8Yxo2zqg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-riscv64-gnu@2.10.1':
+    resolution: {integrity: sha512-X0lvOVUg8PCVaoEtEAnpxmnkwlE1gcMDTqfhbefICKDnOTJ5Est3qL0SrWxizDackIOKBcvtpejrSiVpuJI1kw==}
+    engines: {node: '>= 10'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-x64-gnu@2.10.1':
+    resolution: {integrity: sha512-2/12bEzsJS9fAKybxgicCDFxYD1WEI9kO+tlDwX5znWG2GwMBaiWcmhGlZ8fi+DMe9CXlcVarMTYc0L3REIRxw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-x64-musl@2.10.1':
+    resolution: {integrity: sha512-Y8J0ZzswPz50UcGOFuXGEMrxbjwKSPgXftx5qnkuMs2rmwQB5ssvLb6tn54wDSYxe7S6vlLob9vt0VKuNOaCIQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@tauri-apps/cli-win32-arm64-msvc@2.10.1':
+    resolution: {integrity: sha512-iSt5B86jHYAPJa/IlYw++SXtFPGnWtFJriHn7X0NFBVunF6zu9+/zOn8OgqIWSl8RgzhLGXQEEtGBdR4wzpVgg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@tauri-apps/cli-win32-ia32-msvc@2.10.1':
+    resolution: {integrity: sha512-gXyxgEzsFegmnWywYU5pEBURkcFN/Oo45EAwvZrHMh+zUSEAvO5E8TXsgPADYm31d1u7OQU3O3HsYfVBf2moHw==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@tauri-apps/cli-win32-x64-msvc@2.10.1':
+    resolution: {integrity: sha512-6Cn7YpPFwzChy0ERz6djKEmUehWrYlM+xTaNzGPgZocw3BD7OfwfWHKVWxXzdjEW2KfKkHddfdxK1XXTYqBRLg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@tauri-apps/cli@2.10.1':
+    resolution: {integrity: sha512-jQNGF/5quwORdZSSLtTluyKQ+o6SMa/AUICfhf4egCGFdMHqWssApVgYSbg+jmrZoc8e1DscNvjTnXtlHLS11g==}
+    engines: {node: '>= 10'}
+    hasBin: true
+
+  '@tauri-apps/plugin-opener@2.5.3':
+    resolution: {integrity: sha512-CCcUltXMOfUEArbf3db3kCE7Ggy1ExBEBl51Ko2ODJ6GDYHRp1nSNlQm5uNCFY5k7/ufaK5Ib3Du/Zir19IYQQ==}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
@@ -6591,9 +6759,6 @@ packages:
     resolution: {integrity: sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==}
     engines: {node: '>=8.0.0'}
 
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
-
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -7202,6 +7367,10 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  escape-string-regexp@5.0.0:
+    resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
+    engines: {node: '>=12'}
 
   escodegen@2.1.0:
     resolution: {integrity: sha512-2NlIDTwUWJN0mRPQOdtQBzbUHvdGY2P1VXSyU83Q3xKxM7WHX2Ql8dKq782Q9TgQUNOLEzEYu9bzLNj1q88I5w==}
@@ -8627,6 +8796,13 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  llama.rn@file:llama.rn:
+    resolution: {directory: llama.rn, type: directory}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   lmdb@2.5.2:
     resolution: {integrity: sha512-V5V5Xa2Hp9i2XsbDALkBTeHXnBXh/lEmk9p22zdr7jtuOIY9TGhjK6vAvTpOOx9IKU4hJkRWZxn/HsvR1ELLtA==}
 
@@ -8722,6 +8898,13 @@ packages:
     resolution: {integrity: sha512-Nv9KddBcQSlQopmBHXSsZVY5xsdlZkdH/Iey0BlcBYggMd4two7cZnKOK9vmy3nY0O5RGH99z1PCeTpPqszUYg==}
     engines: {bun: '>=1.0.0', deno: '>=1.30.0', node: '>=8.0.0'}
 
+  lucide-react-native@0.545.0:
+    resolution: {integrity: sha512-v9MC1CJ5jJkBbGvO+jrq9Iqe58pS8FvmdIO1NEr7mzQEx7E2VGfXkl1iaJsKpDSqofYhv4Xrks2I2ewF66HIDA==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-native: '*'
+      react-native-svg: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
+
   lucide-react@0.577.0:
     resolution: {integrity: sha512-4LjoFv2eEPwYDPg/CUdBJQSDfPyzXCRrVW1X7jrx/trgxnxkHFjnVZINbzvzxjN70dxychOfg+FTYwBiS3pQ5A==}
     peerDependencies:
@@ -8739,6 +8922,9 @@ packages:
 
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
+
+  markdown-table@3.0.4:
+    resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
   marked@17.0.4:
     resolution: {integrity: sha512-NOmVMM+KAokHMvjWmC5N/ZOvgmSWuqJB8FoYI019j4ogb/PeRMKoKIjReZ2w3376kkA8dSJIP8uD993Kxc0iRQ==}
@@ -8760,8 +8946,29 @@ packages:
     resolution: {integrity: sha512-+LfG9Fik+OuI8SLwsiR02IVdjcnRCy5MufYLi0C3TdMT56L/pjB0alMVGgoWJF8pN9Rc7FESycZB9BMNWIid5w==}
     deprecated: Version 4 replaces this package with the scoped package @mathjax/src
 
+  mdast-util-find-and-replace@3.0.2:
+    resolution: {integrity: sha512-Tmd1Vg/m3Xz43afeNxDIhWRtFZgM2VLyaf4vSTYwudTyeuTneoL3qtWMA5jeLyz/O1vDJmmV4QuScFCA2tBPwg==}
+
   mdast-util-from-markdown@2.0.3:
     resolution: {integrity: sha512-W4mAWTvSlKvf8L6J+VN9yLSqQ9AOAAvHuoDAmPkz4dHf553m5gVj2ejadHJhoJmcmxEnOv6Pa8XJhpxE93kb8Q==}
+
+  mdast-util-gfm-autolink-literal@2.0.1:
+    resolution: {integrity: sha512-5HVP2MKaP6L+G6YaxPNjuL0BPrq9orG3TsrZ9YXbA3vDw/ACI4MEsnoDpn6ZNm7GnZgtAcONJyPhOP8tNJQavQ==}
+
+  mdast-util-gfm-footnote@2.1.0:
+    resolution: {integrity: sha512-sqpDWlsHn7Ac9GNZQMeUzPQSMzR6Wv0WKRNvQRg0KqHh02fpTz69Qc1QSseNX29bhz1ROIyNyxExfawVKTm1GQ==}
+
+  mdast-util-gfm-strikethrough@2.0.0:
+    resolution: {integrity: sha512-mKKb915TF+OC5ptj5bJ7WFRPdYtuHv0yTRxK2tJvi+BDqbkiG7h7u/9SI89nRAYcmap2xHQL9D+QG/6wSrTtXg==}
+
+  mdast-util-gfm-table@2.0.0:
+    resolution: {integrity: sha512-78UEvebzz/rJIxLvE7ZtDd/vIQ0RHv+3Mh5DR96p7cS7HsBhYIICDBCu8csTNWNO6tBWfqXPWekRuj2FNOGOZg==}
+
+  mdast-util-gfm-task-list-item@2.0.0:
+    resolution: {integrity: sha512-IrtvNvjxC1o06taBAVJznEnkiHxLFTzgonUdy8hzFVeDun0uTjxxrRGVaNFqkU1wJR3RBPEfsxmU6jDWPofrTQ==}
+
+  mdast-util-gfm@3.1.0:
+    resolution: {integrity: sha512-0ulfdQOM3ysHhCJ1p06l0b0VKlhU0wuQs3thxZQagjcjPrlFRqY215uZGHHJan9GEAXd9MbfPjFJz+qMkVR6zQ==}
 
   mdast-util-mdx-expression@2.0.1:
     resolution: {integrity: sha512-J6f+9hUp+ldTZqKRSg7Vw5V6MqjATc+3E4gf3CFNcuZNWD8XdyI6zQ8GqH7f8169MM6P7hMBRDVGnn7oHB9kXQ==}
@@ -8921,6 +9128,27 @@ packages:
 
   micromark-core-commonmark@2.0.3:
     resolution: {integrity: sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg==}
+
+  micromark-extension-gfm-autolink-literal@2.1.0:
+    resolution: {integrity: sha512-oOg7knzhicgQ3t4QCjCWgTmfNhvQbDDnJeVu9v81r7NltNCVmhPy1fJRX27pISafdjL+SVc4d3l48Gb6pbRypw==}
+
+  micromark-extension-gfm-footnote@2.1.0:
+    resolution: {integrity: sha512-/yPhxI1ntnDNsiHtzLKYnE3vf9JZ6cAisqVDauhp4CEHxlb4uoOTxOCJ+9s51bIB8U1N1FJ1RXOKTIlD5B/gqw==}
+
+  micromark-extension-gfm-strikethrough@2.1.0:
+    resolution: {integrity: sha512-ADVjpOOkjz1hhkZLlBiYA9cR2Anf8F4HqZUO6e5eDcPQd0Txw5fxLzzxnEkSkfnD0wziSGiv7sYhk/ktvbf1uw==}
+
+  micromark-extension-gfm-table@2.1.1:
+    resolution: {integrity: sha512-t2OU/dXXioARrC6yWfJ4hqB7rct14e8f7m0cbI5hUmDyyIlwv5vEtooptH8INkbLzOatzKuVbQmAYcbWoyz6Dg==}
+
+  micromark-extension-gfm-tagfilter@2.0.0:
+    resolution: {integrity: sha512-xHlTOmuCSotIA8TW1mDIM6X2O1SiX5P9IuDtqGonFhEK0qgRI4yeC6vMxEV2dgyr2TiD+2PQ10o+cOhdVAcwfg==}
+
+  micromark-extension-gfm-task-list-item@2.1.0:
+    resolution: {integrity: sha512-qIBZhqxqI6fjLDYFTBIa4eivDMnP+OZqsNwmQ3xNLE4Cxwc+zfQEfbs6tzAo2Hjq+bh6q5F+Z8/cksrLFYWQQw==}
+
+  micromark-extension-gfm@3.0.0:
+    resolution: {integrity: sha512-vsKArQsicm7t0z2GugkCKtZehqUm31oeGBV/KVSorWSy8ZlNAv7ytjFhvaryUiCUJYqs+NoE6AFhpQvBTM6Q4w==}
 
   micromark-factory-destination@2.0.1:
     resolution: {integrity: sha512-Xe6rDdJlkmbFRExpTOmRj9N3MaWmbAgdpSrBQvCFqhezUn4AHqJHbaEnfbVYYiexVSs//tqOdY/DxhjdCiJnIA==}
@@ -10007,6 +10235,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  react-native-svg@15.12.1:
+    resolution: {integrity: sha512-vCuZJDf8a5aNC2dlMovEv4Z0jjEUET53lm/iILFnFewa15b4atjVxU6Wirm6O9y6dEsdjDZVD7Q3QM4T1wlI8g==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   react-native-worklets@0.5.1:
     resolution: {integrity: sha512-lJG6Uk9YuojjEX/tQrCbcbmpdLCSFxDK1rJlkDhgqkVi1KZzG7cdcBFQRqyNOOzR9Y0CXNuldmtWTGOyM0k0+w==}
     peerDependencies:
@@ -10163,11 +10397,17 @@ packages:
     resolution: {integrity: sha512-NZQZdC5wOE/H3UT28fVGL+ikOZcEzfMGk/c3iN9UGxzWHMa1op7274oyiUVrAG4B2EuFhus8SvkaYnhvW92p9Q==}
     hasBin: true
 
+  remark-gfm@4.0.1:
+    resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
+
   remark-parse@11.0.0:
     resolution: {integrity: sha512-FCxlKLNGknS5ba/1lmpYijMUzX2esxW5xQqjWxw2eHFfS2MSdaHVINFmhjo+qN1WhZhNimq0dZATN9pH0IDrpA==}
 
   remark-rehype@11.1.2:
     resolution: {integrity: sha512-Dh7l57ianaEoIpzbp0PC9UKAdCSVklD8E5Rpw7ETfbTl3FqcOOgq5q2LVDhgGCkaBv7p24JXikPdvhhmHvKMsw==}
+
+  remark-stringify@11.0.0:
+    resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -11623,6 +11863,24 @@ packages:
   zod@4.1.12:
     resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
+  zustand@5.0.11:
+    resolution: {integrity: sha512-fdZY+dk7zn/vbWNCYmzZULHRrss0jx5pPFiOuMZ/5HJN6Yv3u+1Wswy/4MpZEkEGhtNH+pwxZB8OKgUBPzYAGg==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -13019,7 +13277,7 @@ snapshots:
       metro-babel-transformer: 0.83.2
       metro-cache: 0.83.2
       metro-cache-key: 0.83.2
-      metro-config: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      metro-config: 0.83.2(bufferutil@4.0.8)
       metro-core: 0.83.2
       metro-file-map: 0.83.2
       metro-resolver: 0.83.2
@@ -16602,7 +16860,7 @@ snapshots:
       debug: 4.4.3
       invariant: 2.2.4
       metro: 0.83.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
-      metro-config: 0.83.3(bufferutil@4.0.8)
+      metro-config: 0.83.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       metro-core: 0.83.3
       semver: 7.7.3
     transitivePeerDependencies:
@@ -16806,6 +17064,23 @@ snapshots:
   '@react-navigation/routers@7.5.3':
     dependencies:
       nanoid: 3.3.11
+
+  '@rn-primitives/portal@1.3.0(@types/react@19.1.12)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)(use-sync-external-store@1.6.0(react@19.1.4))':
+    dependencies:
+      react: 19.1.4
+      zustand: 5.0.11(@types/react@19.1.12)(react@19.1.4)(use-sync-external-store@1.6.0(react@19.1.4))
+    optionalDependencies:
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - use-sync-external-store
+
+  '@rn-primitives/slot@1.2.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)':
+    dependencies:
+      react: 19.1.4
+    optionalDependencies:
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
 
   '@rolldown/pluginutils@1.0.0-beta.40': {}
 
@@ -17495,6 +17770,59 @@ snapshots:
 
   '@tanstack/virtual-file-routes@1.133.19': {}
 
+  '@tauri-apps/api@2.10.1': {}
+
+  '@tauri-apps/cli-darwin-arm64@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-darwin-x64@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm-gnueabihf@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm64-gnu@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm64-musl@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-riscv64-gnu@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-x64-gnu@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-linux-x64-musl@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-win32-arm64-msvc@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-win32-ia32-msvc@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli-win32-x64-msvc@2.10.1':
+    optional: true
+
+  '@tauri-apps/cli@2.10.1':
+    optionalDependencies:
+      '@tauri-apps/cli-darwin-arm64': 2.10.1
+      '@tauri-apps/cli-darwin-x64': 2.10.1
+      '@tauri-apps/cli-linux-arm-gnueabihf': 2.10.1
+      '@tauri-apps/cli-linux-arm64-gnu': 2.10.1
+      '@tauri-apps/cli-linux-arm64-musl': 2.10.1
+      '@tauri-apps/cli-linux-riscv64-gnu': 2.10.1
+      '@tauri-apps/cli-linux-x64-gnu': 2.10.1
+      '@tauri-apps/cli-linux-x64-musl': 2.10.1
+      '@tauri-apps/cli-win32-arm64-msvc': 2.10.1
+      '@tauri-apps/cli-win32-ia32-msvc': 2.10.1
+      '@tauri-apps/cli-win32-x64-msvc': 2.10.1
+
+  '@tauri-apps/plugin-opener@2.5.3':
+    dependencies:
+      '@tauri-apps/api': 2.10.1
+
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
   '@trpc/client@11.7.1(@trpc/server@11.7.1(typescript@5.9.3))(typescript@5.9.3)':
@@ -17699,7 +18027,7 @@ snapshots:
 
   '@types/react@19.1.12':
     dependencies:
-      csstype: 3.1.3
+      csstype: 3.2.3
 
   '@types/react@19.2.14':
     dependencies:
@@ -17858,6 +18186,18 @@ snapshots:
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
       vite: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@vitejs/plugin-react@5.1.0(vite@7.1.12(@types/node@25.3.5)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))':
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5)
+      '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.28.5)
+      '@rolldown/pluginutils': 1.0.0-beta.43
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.18.0
+      vite: 7.1.12(@types/node@25.3.5)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -18967,8 +19307,6 @@ snapshots:
     dependencies:
       css-tree: 1.1.3
 
-  csstype@3.1.3: {}
-
   csstype@3.2.3: {}
 
   damerau-levenshtein@1.0.8: {}
@@ -19482,6 +19820,8 @@ snapshots:
   escape-string-regexp@2.0.0: {}
 
   escape-string-regexp@4.0.0: {}
+
+  escape-string-regexp@5.0.0: {}
 
   escodegen@2.1.0:
     dependencies:
@@ -21205,6 +21545,11 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
+  llama.rn@file:llama.rn(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4):
+    dependencies:
+      react: 19.1.4
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
+
   lmdb@2.5.2:
     dependencies:
       msgpackr: 1.11.8
@@ -21305,6 +21650,12 @@ snapshots:
   lru.min@1.1.2:
     optional: true
 
+  lucide-react-native@0.545.0(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4):
+    dependencies:
+      react: 19.1.4
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
+      react-native-svg: 15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4)
+
   lucide-react@0.577.0(react@19.2.4):
     dependencies:
       react: 19.2.4
@@ -21325,6 +21676,8 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
+  markdown-table@3.0.4: {}
+
   marked@17.0.4: {}
 
   marky@1.3.0: {}
@@ -21342,6 +21695,13 @@ snapshots:
       mj-context-menu: 0.6.1
       speech-rule-engine: 4.1.2
 
+  mdast-util-find-and-replace@3.0.2:
+    dependencies:
+      '@types/mdast': 4.0.4
+      escape-string-regexp: 5.0.0
+      unist-util-is: 6.0.1
+      unist-util-visit-parents: 6.0.2
+
   mdast-util-from-markdown@2.0.3:
     dependencies:
       '@types/mdast': 4.0.4
@@ -21356,6 +21716,63 @@ snapshots:
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
       unist-util-stringify-position: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  mdast-util-gfm-autolink-literal@2.0.1:
+    dependencies:
+      '@types/mdast': 4.0.4
+      ccount: 2.0.1
+      devlop: 1.1.0
+      mdast-util-find-and-replace: 3.0.2
+      micromark-util-character: 2.1.1
+
+  mdast-util-gfm-footnote@2.1.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      devlop: 1.1.0
+      mdast-util-from-markdown: 2.0.3
+      mdast-util-to-markdown: 2.1.2
+      micromark-util-normalize-identifier: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  mdast-util-gfm-strikethrough@2.0.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      mdast-util-from-markdown: 2.0.3
+      mdast-util-to-markdown: 2.1.2
+    transitivePeerDependencies:
+      - supports-color
+
+  mdast-util-gfm-table@2.0.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      devlop: 1.1.0
+      markdown-table: 3.0.4
+      mdast-util-from-markdown: 2.0.3
+      mdast-util-to-markdown: 2.1.2
+    transitivePeerDependencies:
+      - supports-color
+
+  mdast-util-gfm-task-list-item@2.0.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      devlop: 1.1.0
+      mdast-util-from-markdown: 2.0.3
+      mdast-util-to-markdown: 2.1.2
+    transitivePeerDependencies:
+      - supports-color
+
+  mdast-util-gfm@3.1.0:
+    dependencies:
+      mdast-util-from-markdown: 2.0.3
+      mdast-util-gfm-autolink-literal: 2.0.1
+      mdast-util-gfm-footnote: 2.1.0
+      mdast-util-gfm-strikethrough: 2.0.0
+      mdast-util-gfm-table: 2.0.0
+      mdast-util-gfm-task-list-item: 2.0.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -21500,27 +21917,27 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  metro-config@0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4):
-    dependencies:
-      connect: 3.7.0
-      flow-enums-runtime: 0.0.6
-      jest-validate: 29.7.0
-      metro: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
-      metro-cache: 0.83.2
-      metro-core: 0.83.2
-      metro-runtime: 0.83.2
-      yaml: 2.8.1
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   metro-config@0.83.3(bufferutil@4.0.8):
     dependencies:
       connect: 3.7.0
       flow-enums-runtime: 0.0.6
       jest-validate: 29.7.0
       metro: 0.83.3(bufferutil@4.0.8)
+      metro-cache: 0.83.3
+      metro-core: 0.83.3
+      metro-runtime: 0.83.3
+      yaml: 2.8.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  metro-config@0.83.3(bufferutil@4.0.8)(utf-8-validate@6.0.4):
+    dependencies:
+      connect: 3.7.0
+      flow-enums-runtime: 0.0.6
+      jest-validate: 29.7.0
+      metro: 0.83.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       metro-cache: 0.83.3
       metro-core: 0.83.3
       metro-runtime: 0.83.3
@@ -21825,7 +22242,7 @@ snapshots:
       metro-babel-transformer: 0.83.2
       metro-cache: 0.83.2
       metro-cache-key: 0.83.2
-      metro-config: 0.83.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      metro-config: 0.83.2(bufferutil@4.0.8)
       metro-core: 0.83.2
       metro-file-map: 0.83.2
       metro-resolver: 0.83.2
@@ -21919,7 +22336,7 @@ snapshots:
       metro-babel-transformer: 0.83.3
       metro-cache: 0.83.3
       metro-cache-key: 0.83.3
-      metro-config: 0.83.3(bufferutil@4.0.8)
+      metro-config: 0.83.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       metro-core: 0.83.3
       metro-file-map: 0.83.3
       metro-resolver: 0.83.3
@@ -21959,6 +22376,64 @@ snapshots:
       micromark-util-resolve-all: 2.0.1
       micromark-util-subtokenize: 2.1.0
       micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-autolink-literal@2.1.0:
+    dependencies:
+      micromark-util-character: 2.1.1
+      micromark-util-sanitize-uri: 2.0.1
+      micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-footnote@2.1.0:
+    dependencies:
+      devlop: 1.1.0
+      micromark-core-commonmark: 2.0.3
+      micromark-factory-space: 2.0.1
+      micromark-util-character: 2.1.1
+      micromark-util-normalize-identifier: 2.0.1
+      micromark-util-sanitize-uri: 2.0.1
+      micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-strikethrough@2.1.0:
+    dependencies:
+      devlop: 1.1.0
+      micromark-util-chunked: 2.0.1
+      micromark-util-classify-character: 2.0.1
+      micromark-util-resolve-all: 2.0.1
+      micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-table@2.1.1:
+    dependencies:
+      devlop: 1.1.0
+      micromark-factory-space: 2.0.1
+      micromark-util-character: 2.1.1
+      micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-tagfilter@2.0.0:
+    dependencies:
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm-task-list-item@2.1.0:
+    dependencies:
+      devlop: 1.1.0
+      micromark-factory-space: 2.0.1
+      micromark-util-character: 2.1.1
+      micromark-util-symbol: 2.0.1
+      micromark-util-types: 2.0.2
+
+  micromark-extension-gfm@3.0.0:
+    dependencies:
+      micromark-extension-gfm-autolink-literal: 2.1.0
+      micromark-extension-gfm-footnote: 2.1.0
+      micromark-extension-gfm-strikethrough: 2.1.0
+      micromark-extension-gfm-table: 2.1.1
+      micromark-extension-gfm-tagfilter: 2.0.0
+      micromark-extension-gfm-task-list-item: 2.1.0
+      micromark-util-combine-extensions: 2.0.1
       micromark-util-types: 2.0.2
 
   micromark-factory-destination@2.0.1:
@@ -23365,6 +23840,14 @@ snapshots:
       warn-once: 0.1.1
     optional: true
 
+  react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4):
+    dependencies:
+      css-select: 5.2.2
+      css-tree: 1.1.3
+      react: 19.1.4
+      react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4)
+      warn-once: 0.1.1
+
   react-native-worklets@0.5.1(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(bufferutil@4.0.8)(react@19.1.4))(react@19.1.4):
     dependencies:
       '@babel/core': 7.28.5
@@ -23651,6 +24134,17 @@ snapshots:
     dependencies:
       jsesc: 3.1.0
 
+  remark-gfm@4.0.1:
+    dependencies:
+      '@types/mdast': 4.0.4
+      mdast-util-gfm: 3.1.0
+      micromark-extension-gfm: 3.0.0
+      remark-parse: 11.0.0
+      remark-stringify: 11.0.0
+      unified: 11.0.5
+    transitivePeerDependencies:
+      - supports-color
+
   remark-parse@11.0.0:
     dependencies:
       '@types/mdast': 4.0.4
@@ -23667,6 +24161,12 @@ snapshots:
       mdast-util-to-hast: 13.2.1
       unified: 11.0.5
       vfile: 6.0.3
+
+  remark-stringify@11.0.0:
+    dependencies:
+      '@types/mdast': 4.0.4
+      mdast-util-to-markdown: 2.1.2
+      unified: 11.0.5
 
   require-directory@2.1.1: {}
 
@@ -24981,6 +25481,25 @@ snapshots:
       tsx: 4.20.6
       yaml: 2.8.1
 
+  vite@7.1.12(@types/node@25.3.5)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1):
+    dependencies:
+      esbuild: 0.25.11
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.8
+      rollup: 4.52.5
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 25.3.5
+      fsevents: 2.3.3
+      jiti: 2.6.1
+      less: 4.5.1
+      lightningcss: 1.30.1
+      sass: 1.97.3
+      terser: 5.44.0
+      tsx: 4.20.6
+      yaml: 2.8.1
+
   vitefu@1.1.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)):
     optionalDependencies:
       vite: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(less@4.5.1)(lightningcss@1.30.1)(sass@1.97.3)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -25207,5 +25726,11 @@ snapshots:
   zod@3.25.76: {}
 
   zod@4.1.12: {}
+
+  zustand@5.0.11(@types/react@19.1.12)(react@19.1.4)(use-sync-external-store@1.6.0(react@19.1.4)):
+    optionalDependencies:
+      '@types/react': 19.1.12
+      react: 19.1.4
+      use-sync-external-store: 1.6.0(react@19.1.4)
 
   zwitch@2.0.4: {}

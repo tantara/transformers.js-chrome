@@ -19,6 +19,7 @@
     "dev:next": "turbo watch dev -F @acme/nextjs...",
     "dev:chrome": "turbo watch dev:chrome -F @acme/plasmo...",
     "dev:plasmo": "turbo watch dev:chrome dev:firefox -F @acme/plasmo...",
+    "dev:tauri": "pnpm --filter @acme/tauri dev:tauri",
     "dev:firefox": "pnpm -F @acme/plasmo dev:firefox",
     "build:chrome": "turbo run build -F @acme/plasmo...",
     "build:firefox": "pnpm -F @acme/plasmo build:firefox",
